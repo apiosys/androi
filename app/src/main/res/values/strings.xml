@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">DataCollector</string>
+    <string name="app_name">Data Capture</string>
     <string name="start">START</string>
-    <string name="end">END</string>
+    <string name="end">STOP</string>
+    <string name="EnterExperiment">Enter Experiment Name And Start</string>
+    <string name="clear">CLEAR</string>
 </resources>

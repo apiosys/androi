@@ -1,46 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
         <LinearLayout
-            android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/white">
+        <FrameLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center">
             <EditText
                 android:id="@+id/EditText"
                 android:layout_margin="@dimen/margin"
                 android:layout_height="@dimen/edittext_vertical_margin"
                 android:layout_width="@dimen/edittext_horizontal_margin"
-                android:text="@string/app_name"
-                android:gravity="center"/>
+                android:text="@string/EnterExperiment"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:onClick=""/>
+            <Button
+                android:id="@+id/ClearButton"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:text="X"
+                android:gravity="center"
+                android:background="@drawable/small_green_button"
+                style="@style/button_text"/>
+
+            </LinearLayout>
 
             <!--Toggle Button is not supported above API 19.-->
             <!--So Use Start and End Buttons-->
             <Button
                 android:id="@+id/StartButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="@dimen/Button_Dimen"
                 android:text="@string/start"
-                android:gravity="center"/>
+                android:layout_gravity="left|bottom"
+                android:gravity="center"
+                android:background="@drawable/green_button"
+                style="@style/button_text"/>
 
             <Button
                 android:id="@+id/EndButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="@dimen/Button_Dimen"
                 android:text="@string/end"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:layout_gravity="right|bottom"
+                android:background="@drawable/green_button"
+                style="@style/button_text"/>
+
+        </FrameLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_weight="1">
 
-</FrameLayout>
+            <include layout="@layout/sensorsinfo"/>
+
+        </LinearLayout>
+
+</LinearLayout>

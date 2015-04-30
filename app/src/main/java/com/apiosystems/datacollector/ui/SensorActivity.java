@@ -1,10 +1,7 @@
 package com.apiosystems.datacollector.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apiosystems.datacollector.Logger.SensorLogger;
 
@@ -25,7 +23,8 @@ public class SensorActivity extends Activity {
     private EditText mEditText;
     private Button mStartButton;
     private Button mEndButton;
-    //private SensorManager mSensorManager;
+    private Button mClearButton;
+    private SensorManager mSensorManager;
     private List<Sensor> mSensorList;
     private TextView mSensorDataTextView;
     private Button mOkBtn;
@@ -35,6 +34,8 @@ public class SensorActivity extends Activity {
 
     public SensorLogger mSensorLogger;
     private String mExperimentName;
+    private boolean mFlagExpName = false;
+    private boolean mStartLog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,17 +48,38 @@ public class SensorActivity extends Activity {
         mEditText = (EditText) findViewById(R.id.EditText);
         mStartButton = (Button) findViewById(R.id.StartButton);
         mEndButton = (Button) findViewById(R.id.EndButton);
+        mClearButton = (Button) findViewById(R.id.ClearButton);
         mSensorDataTextView = (TextView)findViewById(R.id.textView1);
-        mOkBtn = (Button) findViewById(R.id.BtnOk);
 
+        displaySensors();
 
+        mEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!mFlagExpName){
+                    mFlagExpName = true ;
+                    mEditText.setText("");
+                }else{
+                    mEditText.setText(mExperimentName);
+                }
+            }
+        });
+
+        mClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mEditText.setText("");
+            }
+        });
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
+                mStartLog = true;
                 mExperimentName = mEditText.getText().toString();
                 Log.i("EXPERIMENT_NAME",mExperimentName);
+                Toast.makeText(getApplicationContext(),mExperimentName + " STARTED :-) ", Toast.LENGTH_SHORT);
                 mSensorLogger = new SensorLogger(getApplicationContext());
                 mSensorLogger.startLogging(mExperimentName);
                 timer = new Timer();
@@ -69,6 +91,7 @@ public class SensorActivity extends Activity {
             @Override
             public void onClick(View v){
                 //TODO Auto-generated method stub
+                Toast.makeText(getApplicationContext(),mExperimentName + " STOPPED :-( ", Toast.LENGTH_SHORT);
                 mSensorLogger.stopLogging();
                 timer.cancel();
                 timer.purge();
@@ -79,13 +102,27 @@ public class SensorActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        mSensorLogger.stopLogging();
-        //timer.cancel();
-        //timer.purge();
+        if(mStartLog){
+            mStartLog = false;
+            mSensorLogger.stopLogging();
+            timer.cancel();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    public void displaySensors(){
+        mSensorManager = (SensorManager)this.getSystemService(SENSOR_SERVICE);
+        List<Sensor> sensorList = mSensorManager.getSensorList(Sensor.TYPE_ALL);
+        StringBuilder data = new StringBuilder();
+
+        data.append("SENSORS ON DEVICE :\n");
+        for(Sensor sensor: sensorList){
+            data.append(sensor.getName() + "\n");
+        }
+        mSensorDataTextView.setText(data);
     }
 }
