@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/AtStop"
         android:background="@color/BLUE"
+        android:textColor="@color/WHITE"
         android:layout_margin="@dimen/margin"
         android:layout_gravity="left"
         android:gravity="center"/>
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:text="@string/StartedMove"
         android:background="@color/BLUE"
+        android:textColor="@color/WHITE"
         android:layout_margin="@dimen/margin"
         android:gravity="center"
         android:layout_gravity="right"/>

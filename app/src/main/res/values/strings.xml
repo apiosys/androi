@@ -9,4 +9,5 @@
     <string name="VersionNumber">1.2</string>
     <string name="StartCapture">Start Capture</string>
     <string name="StopCapture">Stop Capture</string>
+    <string name="ButtonColor"></string>
 </resources>

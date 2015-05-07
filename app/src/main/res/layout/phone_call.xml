@@ -6,10 +6,12 @@
     android:layout_weight="1">
 
     <Button
+        android:id="@+id/phonecall_btn"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/PhoneCall"
         android:background="@color/BLUE"
+        android:textColor="@color/WHITE"
         android:layout_margin="@dimen/margin"/>
 
 </FrameLayout>
