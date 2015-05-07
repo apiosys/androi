@@ -47,7 +47,6 @@ public class AccelerometerSensor extends SensorBaseClass implements SensorEventL
             values[1] = (float) (sensorEvent.values[1] / 9.81);
             values[2] = (float) (sensorEvent.values[2] / 9.81);
         }
-        SensorActivity.setAccText(getValuesStr());
     }
 
     @Override

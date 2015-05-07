@@ -54,7 +54,6 @@ public class GyroscopeSensor extends SensorBaseClass implements SensorEventListe
             values[1] = sensorEvent.values[1];
             values[2] = sensorEvent.values[2];
         }
-        SensorActivity.setGyrText(getValuesStr());
     }
 
     @Override

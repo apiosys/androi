@@ -1,22 +1,16 @@
 package com.apiosystems.datacollector.util;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.util.Log;
-
 import com.apiosystems.datacollector.ui.SensorActivity;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by Akshayraj on 4/29/15.
  */
 public class Helper {
     public static final String NO_SENSOR_VALUES = "- - - ";
+    public static final String CAPTURE = "CAPTURE";
     private static boolean DEBUG_ENABLED = false;//This is the global debugging flag
     public static final String NEW_LINE = "\n";
     public static final String SPACE = " ";
@@ -28,7 +22,6 @@ public class Helper {
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HHmmss");
         Calendar cal = Calendar.getInstance();
         String currentDateTime = dateFormat.format(cal.getTime());
-        //Log.i("Current DateTime ", currentDateTime);
         return currentDateTime;
     }
 
@@ -36,7 +29,6 @@ public class Helper {
         DateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd");
         Calendar cal = Calendar.getInstance();
         String currentDate = dateFormat.format(cal.getTime());
-        //Log.i("Current Date ", currentDate);
         return currentDate;
     }
 
@@ -44,7 +36,6 @@ public class Helper {
         DateFormat dateFormat = new SimpleDateFormat("HH.mm.ss");
         Calendar cal = Calendar.getInstance();
         String currentTime = dateFormat.format(cal.getTime());
-        //Log.i("Current Time ", currentTime);
         return currentTime;
     }
 
@@ -53,7 +44,6 @@ public class Helper {
         String millisStr = String.valueOf(millis);
         String currentDateTimeinMillis = Helper.getCurrentDateTime()
                 + "." + millisStr;
-        //Log.i("DateTimeinMillis : ", currentDateTimeinMillis);
         return currentDateTimeinMillis;
     }
 
@@ -73,7 +63,6 @@ public class Helper {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HHmmss");
         Calendar cal = Calendar.getInstance();
         String currentDateTimeForFile = dateFormat.format(cal.getTime());
-        //Log.i("Current DateTime ", currentDateTimeForFile);
         return currentDateTimeForFile;
     }
 }

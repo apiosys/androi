@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/StartTexting"
+        android:id="@+id/textView"
+        android:background="@color/accent_material_light"
+        android:layout_margin="@dimen/margin"
+        android:layout_gravity="left|top"/>
+</FrameLayout>

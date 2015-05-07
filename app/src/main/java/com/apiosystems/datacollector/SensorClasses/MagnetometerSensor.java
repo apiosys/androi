@@ -47,7 +47,6 @@ public class MagnetometerSensor extends SensorBaseClass implements SensorEventLi
             values[1] = sensorEvent.values[1];
             values[2] = sensorEvent.values[2];
         }
-        SensorActivity.setMagText(getValuesStr());
     }
 
     @Override

@@ -82,7 +82,6 @@ public class OrientationSensorKitkat extends OrientationSensor implements Sensor
                 SensorManager.getOrientation(R, values);
             }
         }
-        SensorActivity.setOriText(getValuesStr());
     }
 
     @Override
