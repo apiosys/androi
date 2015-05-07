@@ -15,44 +15,53 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apiosystems.datacollector.Logger.SensorLogger;
+import com.apiosystems.datacollector.SensorClasses.LocationSensor;
 import com.apiosystems.datacollector.SensorClasses.SensorBaseClass;
 import com.apiosystems.datacollector.util.Helper;
 
 import java.util.List;
 import java.util.Timer;
+import java.util.logging.Logger;
 
 import datacollector.apiosystems.com.datacollector.R;
 
-public class SensorActivity extends Activity {
+public class SensorActivity extends Activity implements Runnable {
 
     private EditText mEditText;
     private Button mStartButton;
     private Button mEndButton;
     private Button mClearButton;
-    private SensorManager mSensorManager;
-    private List<Sensor> mSensorList;
     private static TextView mGyrTextView;
     private static TextView mGtyTextView;
     private static TextView mOriTextView;
     private static TextView mAccTextView;
     private static TextView mMagTextView;
-    private Button mOkBtn;
 
     public static Timer timer ;
-    private static final String LOG_TAG = "SENSOR_ACTIVITY";
+    public static final String LOG_TAG = "SENSOR_ACTIVITY";
 
     public SensorLogger mSensorLogger;
-    private String mExperimentName;
-    private boolean mFlagExpName = false;
-    private boolean mStartLog = false;
+    public String mExperimentName;
+    public boolean mStartLog = false;
+    public LocationSensor mLocationSensor ;
+    Thread Logger;
+    public static  boolean mThreadFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(LOG_TAG,"Before super.onCreate()");
+        //Log.i(LOG_TAG,"Before super.onCreate()");
         super.onCreate(savedInstanceState);
 
-        Log.i(LOG_TAG,"OnCreate");
+        //Log.i(LOG_TAG,"OnCreate");
         setContentView(R.layout.data_capture);
+        if(mLocationSensor == null){
+            Log.i(LOG_TAG, "LOCATION_SENSOR_NULL");
+            mLocationSensor = new LocationSensor(this);
+        }
+
+        if (mLocationSensor.checkPlayServices()) {
+            mLocationSensor.buildGoogleApiClient();
+        }
 
         mEditText    = (EditText) findViewById(R.id.EditText);
         mStartButton = (Button) findViewById(R.id.StartButton);
@@ -70,8 +79,8 @@ public class SensorActivity extends Activity {
         mMagTextView = (TextView) findViewById(R.id.magtextview);
         mMagTextView.setText("- - - ");
 
-        Log.i("Current Date : " , Helper.getCurrentDate());
-        Log.i("Current Time : " , Helper.getCurrentTime());
+        //Log.i("Current Date : " , Helper.getCurrentDate());
+        //Log.i("Current Time : " , Helper.getCurrentTime());
 
         mEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,22 +99,22 @@ public class SensorActivity extends Activity {
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 mStartLog = true;
                 mExperimentName = mEditText.getText().toString();
-                Log.i("EXPERIMENT_NAME",mExperimentName);
+                //Log.i("EXPERIMENT_NAME",mExperimentName);
                 Toast.makeText(getApplicationContext(),mExperimentName + " STARTED :-) ", Toast.LENGTH_SHORT).show();
-                mSensorLogger = new SensorLogger(getApplicationContext());
+                mSensorLogger = new SensorLogger(getApplicationContext(), SensorActivity.this);
                 mSensorLogger.startLogging(mExperimentName);
                 timer = new Timer();
-                timer.schedule(mSensorLogger, 0, 30);
+                timer.schedule(mSensorLogger, Helper.TIMER_DELAY, Helper.TIMER_PERIOD);
+                //Logger = new Thread(new SensorActivity());
+                //Logger.start();
             }
         });
 
         mEndButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //TODO Auto-generated method stub
                 Toast.makeText(getApplicationContext(),mExperimentName + " STOPPED :-( ", Toast.LENGTH_SHORT).show();
                 mSensorLogger.stopLogging();
                 timer.cancel();
@@ -124,6 +133,22 @@ public class SensorActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
     public static void setGyrText(String text){
         mGyrTextView.setText(text);
     }
@@ -139,11 +164,14 @@ public class SensorActivity extends Activity {
     public static void setMagText(String text){
         mMagTextView.setText(text);
     }
-
-
+    /**
+     * Starts executing the active part of the class' code. This method is
+     * called when a thread is started that has been created with a class which
+     * implements {@code Runnable}.
+     */
     @Override
-    protected void onResume() {
-        super.onResume();
+    public void run() {
+        timer = new Timer();
+        timer.schedule(mSensorLogger, Helper.TIMER_DELAY, Helper.TIMER_PERIOD);
     }
-
 }
