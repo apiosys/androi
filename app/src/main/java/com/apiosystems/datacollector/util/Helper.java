@@ -47,10 +47,6 @@ public class Helper {
         return currentDateTimeinMillis;
     }
 
-    public synchronized boolean getFlag(){
-        return SensorActivity.mThreadFlag;
-    }
-
     public synchronized void setFlag(boolean flag, boolean value){
         flag=value;
     }

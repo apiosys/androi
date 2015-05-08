@@ -42,7 +42,6 @@ public class LocationSensor2 implements LocationListener {
     public void registerSensor(){
         mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_INTERVAL_BETWEEN_LOCATION_UPDATES,
                 DISTANCE_BETWEEN_LOCATION_UPDATES, this);
-        Log.i(LOG_TAG, "Location_Manager : " + mLocationManager.toString());
     }
 
     public void unregisterSensor(){
@@ -77,7 +76,6 @@ public class LocationSensor2 implements LocationListener {
         }else{
             valuesstr = "- - - ";
         }
-        Log.i(LOG_TAG, valuesstr);
         return valuesstr;
     }
 
@@ -92,7 +90,6 @@ public class LocationSensor2 implements LocationListener {
         }else{
             locmeta = "- - - - - ";
         }
-        Log.i(LOG_TAG, "LOC_META :" + locmeta);
         return locmeta;
     }
 
