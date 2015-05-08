@@ -55,8 +55,6 @@ public class SensorActivity extends Activity {
         mStartButton = (Button) findViewById(R.id.StartButton);
         mEndButton   = (Button) findViewById(R.id.EndButton);
 
-         imm = (InputMethodManager)this.getSystemService(Service.INPUT_METHOD_SERVICE);
-
         BLUE = getResources().getColor(R.color.BLUE);
         GREY = Color.DKGRAY;
         WHITE = Color.WHITE;
@@ -66,7 +64,7 @@ public class SensorActivity extends Activity {
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!mUserTexting) {
+                if (!mUserTexting) {
                     mUserTexting = true;
                     mSensorLogger.writeDataToFile("EVENT:Texting:STARTED" +
                             Helper.NEW_LINE);
@@ -79,7 +77,7 @@ public class SensorActivity extends Activity {
             @Override
             public void onClick(View v) {
                 mSensorLogger.writeDataToFile("EVENT:Moving:STOPPED"
-                            + Helper.NEW_LINE);
+                        + Helper.NEW_LINE);
                 Log.i(LOG_TAG, "AT_STOP");
             }
         });
@@ -186,19 +184,6 @@ public class SensorActivity extends Activity {
         mGeneralHandlingBtn.setEnabled(false);
         mStartButton.setEnabled(true);
         mEndButton.setEnabled(false);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-
-        // Checks whether a hardware keyboard is available
-        if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-            Toast.makeText(this, "keyboard visible", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-            Toast.makeText(this, "keyboard hidden", Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override

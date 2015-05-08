@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Data Collector</string>
+    <string name="app_name">DataCapture</string>
     <string name="StartTexting">Start Your Texting</string>
     <string name="AtStop">At Stop</string>
     <string name="StartedMove">Started Move</string>

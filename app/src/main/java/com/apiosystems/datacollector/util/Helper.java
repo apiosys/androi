@@ -15,7 +15,7 @@ public class Helper {
     public static final String NEW_LINE = "\n";
     public static final String SPACE = " ";
     public static final String DASH = "-";
-    public static final long TIMER_PERIOD = 20;//millis
+    public static final long TIMER_PERIOD = 30;//millis
     public static final long TIMER_DELAY = 1*1000;//millis
 
     public static String getCurrentDateTime(){
