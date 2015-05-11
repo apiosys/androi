@@ -77,8 +77,8 @@ public class SensorLogger extends TimerTask {
         mFlagOn = true;
         mExperimentFile = getFile(fileName);
         initializeBufferedWriter();
+        writeDataToFile(Helper.PASSENGER + Helper.NEW_LINE);
         registerSensors();
-        Log.i(LOG_TAG, mProxSensor.getSensor().getName());
     }
 
     public void writeDataToFile(String content){

@@ -1,17 +1,13 @@
 package com.apiosystems.datacollector.ui;
 
 import android.app.Activity;
-import android.app.Service;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 import com.apiosystems.datacollector.Logger.SensorLogger;
 import com.apiosystems.datacollector.util.Helper;
@@ -23,12 +19,11 @@ import datacollector.apiosystems.com.datacollector.R;
 public class SensorActivity extends Activity {
 
     private static TextViewBackEvent mTextView;
-    private static Button mAtStopBtn;
-    private static Button mStartedMoveBtn;
     private static Button mPhoneCallBtn;
     private static Button mGeneralHandlingBtn;
     private static Button mStartButton;
     private static Button mEndButton;
+    private static Switch mSwitchButton;
     public static Timer timer ;
     public static final String LOG_TAG = "SENSOR_ACTIVITY";
     public static int BLUE;
@@ -36,11 +31,11 @@ public class SensorActivity extends Activity {
     public static int WHITE;
 
     public static SensorLogger mSensorLogger;
+    public static boolean isDriver = false;
     public static boolean mStartLog = false;
-    private static boolean mPhoneCallStarted = false;
-    private static boolean mGeneralHandlingStarted = false;
+    public static boolean mPhoneCallStarted = false;
+    public static boolean mGeneralHandlingStarted = false;
     public static boolean mUserTexting = false;
-    private static InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +43,11 @@ public class SensorActivity extends Activity {
 
         setContentView(R.layout.data_capture);
         mTextView = (TextViewBackEvent) findViewById(R.id.textView);//Custom layout component
-        mAtStopBtn = (Button) findViewById(R.id.atstop);
-        mStartedMoveBtn = (Button) findViewById(R.id.startedmove);
         mPhoneCallBtn = (Button) findViewById(R.id.phonecall_btn);
         mGeneralHandlingBtn = (Button) findViewById(R.id.generalhandling_btn);
         mStartButton = (Button) findViewById(R.id.StartButton);
         mEndButton   = (Button) findViewById(R.id.EndButton);
-
+        mSwitchButton = (Switch) findViewById(R.id.switch_button);
         BLUE = getResources().getColor(R.color.BLUE);
         GREY = Color.DKGRAY;
         WHITE = Color.WHITE;
@@ -66,28 +59,30 @@ public class SensorActivity extends Activity {
             public void onClick(View v) {
                 if (!mUserTexting) {
                     mUserTexting = true;
-                    mSensorLogger.writeDataToFile("EVENT:Texting:STARTED" +
+                    mSensorLogger.writeDataToFile("SE:Texting" +
                             Helper.NEW_LINE);
                     Log.i(LOG_TAG, "TEXTVIEW_CLICKED" + mUserTexting);
                 }
             }
         });
 
-        mAtStopBtn.setOnClickListener(new View.OnClickListener() {
+        mSwitchButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                mSensorLogger.writeDataToFile("EVENT:Moving:STOPPED"
-                        + Helper.NEW_LINE);
-                Log.i(LOG_TAG, "AT_STOP");
-            }
-        });
-
-        mStartedMoveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSensorLogger.writeDataToFile("EVENT:Moving:STARTED"
-                        + Helper.NEW_LINE);
-                Log.i(LOG_TAG, "STARTED_MOVE");
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+                if(isChecked){
+                    isDriver = true;
+                    mSwitchButton.setText("DRIVER");
+                    mSensorLogger.writeDataToFile(Helper.DRIVER
+                            + Helper.NEW_LINE);
+                    Log.i(LOG_TAG,"DRIVER");
+                }else{
+                    isDriver = false;
+                    mSwitchButton.setText("PASSENGER");
+                    mSensorLogger.writeDataToFile(Helper.PASSENGER
+                            + Helper.NEW_LINE);
+                    Log.i(LOG_TAG, "PASSENGER");
+                }
             }
         });
 
@@ -97,12 +92,12 @@ public class SensorActivity extends Activity {
                 if (!mPhoneCallStarted) {
                     mPhoneCallStarted = true;
                     mPhoneCallBtn.setText("STOP PHONE CALL");
-                    mSensorLogger.writeDataToFile("EVENT:PhoneCall:STARTED"
+                    mSensorLogger.writeDataToFile("SE:PhoneCall"
                             + Helper.NEW_LINE);
                 } else {
                     mPhoneCallStarted = false;
                     mPhoneCallBtn.setText("START PHONE CALL");
-                    mSensorLogger.writeDataToFile("EVENT:PhoneCall:STOPPED"
+                    mSensorLogger.writeDataToFile("EE:PhoneCall"
                             + Helper.NEW_LINE);
                 }
             }
@@ -114,12 +109,12 @@ public class SensorActivity extends Activity {
                 if (!mGeneralHandlingStarted) {
                     mGeneralHandlingStarted = true;
                     mGeneralHandlingBtn.setText("STOP GENERAL HANDLING");
-                    mSensorLogger.writeDataToFile("EVENT:GeneralHandling:STARTED"
+                    mSensorLogger.writeDataToFile("SE:GeneralHandling"
                             + Helper.NEW_LINE);
                 } else {
                     mGeneralHandlingStarted = false;
                     mGeneralHandlingBtn.setText("START GENERAL HANDLING");
-                    mSensorLogger.writeDataToFile("EVENT:GeneralHandling:STOPPED"
+                    mSensorLogger.writeDataToFile("EE:GeneralHandling"
                             + Helper.NEW_LINE);
                 }
             }
@@ -152,16 +147,13 @@ public class SensorActivity extends Activity {
 
     private void enableView() {
         mTextView.setBackgroundColor(WHITE);
-        mAtStopBtn.setBackgroundColor(BLUE);
-        mStartedMoveBtn.setBackgroundColor(BLUE);
         mPhoneCallBtn.setBackgroundColor(BLUE);
         mGeneralHandlingBtn.setBackgroundColor(BLUE);
         mStartButton.setBackgroundColor(BLUE);
         mEndButton.setBackgroundColor(BLUE);
 
         mTextView.setEnabled(true);
-        mAtStopBtn.setEnabled(true);
-        mStartedMoveBtn.setEnabled(true);
+        mSwitchButton.setEnabled(true);
         mPhoneCallBtn.setEnabled(true);
         mGeneralHandlingBtn.setEnabled(true);
         mStartButton.setEnabled(false);
@@ -170,16 +162,14 @@ public class SensorActivity extends Activity {
 
     private void disableView(){
         mTextView.setBackgroundColor(Color.GRAY);
-        mAtStopBtn.setBackgroundColor(GREY);
-        mStartedMoveBtn.setBackgroundColor(GREY);
         mPhoneCallBtn.setBackgroundColor(GREY);
         mGeneralHandlingBtn.setBackgroundColor(GREY);
         mStartButton.setBackgroundColor(GREY);
         mEndButton.setBackgroundColor(GREY);
 
         mTextView.setEnabled(false);
-        mAtStopBtn.setEnabled(false);
-        mStartedMoveBtn.setEnabled(false);
+        mSwitchButton.setChecked(false);
+        mSwitchButton.setEnabled(false);
         mPhoneCallBtn.setEnabled(false);
         mGeneralHandlingBtn.setEnabled(false);
         mStartButton.setEnabled(true);

@@ -1,10 +1,12 @@
 package com.apiosystems.datacollector.util;
 
 import android.content.Context;
+import android.location.LocationManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.apiosystems.datacollector.ui.SensorActivity;
@@ -29,16 +31,14 @@ public class TextViewBackEvent extends TextView {
     }
 
     @Override
-    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
-        if(SensorActivity.mUserTexting) {
-            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                SensorActivity.mUserTexting = false;
-                SensorActivity.mSensorLogger.writeDataToFile("EVENT:Texting:STOPPED" +
-                        Helper.NEW_LINE);
-                Log.i("onKeyPreIme", "TextingStopped" + keyCode);
-            }
+    public void onEditorAction(int actionCode) {
+        if (actionCode == EditorInfo.IME_ACTION_DONE) {
+            SensorActivity.mUserTexting = false;
+            SensorActivity.mSensorLogger.writeDataToFile("EE:Texting" +
+                    Helper.NEW_LINE);
+            Log.i("onEditorAction", "DONE");
         }
-        return super.onKeyPreIme(keyCode, event);
+        super.onEditorAction(actionCode);
     }
 
     public void setOnTextViewImeBackListener(TextViewImeBackListener listener) {
