@@ -11,6 +11,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:enabled="false"
+        android:textSize="@dimen/fontSize"
         android:textStyle="bold|normal"
         android:textColor="@color/BLACK" />
 

@@ -27,7 +27,7 @@ public class AccelerometerSensor extends SensorBaseClass implements SensorEventL
             mSensor = mSensorManager.getDefaultSensor(mSensorType);
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_FASTEST);
         } else {
-            Log.i(LOG_TAG, "ACCELEROMETER ABSENT");
+            //Log.i(LOG_TAG, "ACCELEROMETER ABSENT");
         }
     }
 

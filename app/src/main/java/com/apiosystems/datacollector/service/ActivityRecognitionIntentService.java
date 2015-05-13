@@ -4,96 +4,56 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
-import com.apiosystems.datacollector.SensorClasses.ActivityRecognitionScan;
+import com.apiosystems.datacollector.SensorClasses.LocationSensor;
+import com.apiosystems.datacollector.util.Helper;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;
 
-public class ActivityRecognitionIntentService extends IntentService {
-
-    private static String LOG_TAG = ActivityRecognitionIntentService.class.getSimpleName();
-    public static String ACTIVITY_NAME_ENUM = "ACTIVITY_NAME_ENUM";
+public class ActivityRecognitionIntentService extends IntentService{
+    private static final String LOG_TAG = ActivityRecognitionIntentService.class.getSimpleName();
     public static String ACTIVITY_NAME_KEY = "ACTIVITY_NAME_KEY";
     public static String ACTIVITY_CONFIDENCE_KEY = "ACTIVITY_CONFIDENCE_KEY";
 
     public ActivityRecognitionIntentService(){
-        super(ActivityRecognitionIntentService.class.getSimpleName());
+        super("ActivityRecognitionIntentService");
     }
 
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        // If the incoming intent contains an update
-        if (ActivityRecognitionResult.hasResult(intent)) {
-            // Get the update
-            ActivityRecognitionResult result =
-                    ActivityRecognitionResult.extractResult(intent);
-            // Get the most probable activity
-            DetectedActivity mostProbableActivity =
-                    result.getMostProbableActivity();
-            /*
-             * Get the probability that this activity is the
-             * the user's actual activity
-             */
-            int confidence = mostProbableActivity.getConfidence();
-            /*
-             * Get an integer describing the type of activity
-             */
-            int activityType = mostProbableActivity.getType();
-            final String activityName = getNameFromType(activityType);
+    protected void onHandleIntent(Intent intent){
+        if(ActivityRecognitionResult.hasResult(intent)){
+            ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
+            DetectedActivity mostProbAct = result.getMostProbableActivity();
+            int confidence = mostProbAct.getConfidence();
+            String mostProbActName = getActivityName(mostProbAct.getType());
 
-            /*
-             * At this point, you have retrieved all the information
-             * for the current update. You can display this
-             * information to the user in a notification, or
-             * send it to an Activity or Service in a broadcast
-             * Intent.
-             */
-            final String log = "ActivityRecognitionResult has result: activityName: "
-                    + activityName + " confidence: " + confidence;
-            Log.d(LOG_TAG, log);
-            broadcastNewActivityRecognized(activityName, confidence, activityType);
-        } else {
-            /*
-             * This implementation ignores intents that don't contain
-             * an activity update. If you wish, you can report them as
-             * errors.
-             */
-            Log.d(LOG_TAG, "ActivityRecognitionResult has no result");
-        }
+            broadcastNewActivityRecognized(mostProbActName, confidence);
+            Intent i = new Intent("SAVVY");
+            i.putExtra("act", mostProbActName);
+            i.putExtra("confidence", confidence);
+        }else
+            Log.i(Helper.LOG_TAG, LOG_TAG);
     }
-    /**
-     * Map detected activity types to strings
-     *@param activityType The detected activity type
-     *@return A user-readable name for the type
-     */
-    private String getNameFromType(int activityType) {
-        switch(activityType) {
+
+    public static String getActivityName(int activityType){
+        switch(activityType){
+
             case DetectedActivity.IN_VEHICLE:
-                String inVehicle = "in_vehicle";
-                return inVehicle;
+                return "IN_VEHICLE";
             case DetectedActivity.ON_BICYCLE:
-                return "on_bicycle";
+                return "ON_BICYCLE";
             case DetectedActivity.ON_FOOT:
-                String onFoot = "on foot";
-                return onFoot;
-            case DetectedActivity.RUNNING:
-                String running = "running";
-                return running;
+                return "ON_FOOT";
             case DetectedActivity.STILL:
-                return "still";
+                return "STILL";
             case DetectedActivity.UNKNOWN:
-                return "unknown";
+                return "UNKNOWN";
             case DetectedActivity.TILTING:
-                return "tilting";
-            case DetectedActivity.WALKING:
-                String walking = "walking";
-                return walking;
+                return "TILTING";
         }
-        return "unknown";
+        return "UNKNOWN";
     }
 
-    private void broadcastNewActivityRecognized(String activityName, int confidence, int activityType){
-        Intent serviceLauncher = new Intent(this,ActivityRecognitionScan.class);
-        serviceLauncher.putExtra(ACTIVITY_NAME_ENUM, activityType);
+    public void broadcastNewActivityRecognized(String activityName, int confidence){
+        Intent serviceLauncher = new Intent(this, LocationSensor.class);
         serviceLauncher.putExtra(ACTIVITY_NAME_KEY, activityName);
         serviceLauncher.putExtra(ACTIVITY_CONFIDENCE_KEY, confidence);
         startService(serviceLauncher);

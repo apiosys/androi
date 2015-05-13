@@ -44,7 +44,7 @@ public class ProximitySensor extends SensorBaseClass implements SensorEventListe
         if (mSensor.getType() == mSensorType) {
             distance = (float) (sensorEvent.values[0]);
         }
-        //SensorActivity.setAccText(getDistanceStr());
+        //Log.i(LOG_TAG, "Distance : " + distance);
     }
 
     @Override
@@ -52,14 +52,19 @@ public class ProximitySensor extends SensorBaseClass implements SensorEventListe
 
     }
 
-    public String getDistanceStr(){
+    public String getDistanceStr() {
         String valuesstr;
-        if(isSensorAvailable(mSensorType,mContext)) {
-            valuesstr = String.valueOf(distance) + Helper.SPACE;
-        }else{
+        if (isSensorAvailable(mSensorType, mContext)) {
+            if (distance > 0.0) {
+                valuesstr = "Proximity:Distant" + Helper.SPACE;
+            } else{
+                valuesstr = "Proximity:Close" + Helper.SPACE;
+            }
+        }else {
             valuesstr = "- ";
         }
-        return valuesstr;
+        //Log.i(LOG_TAG,valuesstr);
+            return valuesstr;
     }
 
     public float getDistance() {
@@ -77,7 +82,6 @@ public class ProximitySensor extends SensorBaseClass implements SensorEventListe
     public void setSensor(Sensor sensor){
         this.mSensor = sensor;
     }
-
 
     public SensorUpdateTaskHandler getTaskHandler() {
         return mTaskHandler;

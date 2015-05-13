@@ -26,7 +26,8 @@ public class SensorActivity extends Activity {
     private static Switch mSwitchButton;
     public static Timer timer ;
     public static final String LOG_TAG = "SENSOR_ACTIVITY";
-    public static int BLUE;
+    private static int BLUE ;
+    public static int LTBLUE;
     public static int GREY;
     public static int WHITE;
 
@@ -48,6 +49,7 @@ public class SensorActivity extends Activity {
         mStartButton = (Button) findViewById(R.id.StartButton);
         mEndButton   = (Button) findViewById(R.id.EndButton);
         mSwitchButton = (Switch) findViewById(R.id.switch_button);
+        LTBLUE = getResources().getColor(R.color.LTBLUE);
         BLUE = getResources().getColor(R.color.BLUE);
         GREY = Color.DKGRAY;
         WHITE = Color.WHITE;
@@ -59,6 +61,7 @@ public class SensorActivity extends Activity {
             public void onClick(View v) {
                 if (!mUserTexting) {
                     mUserTexting = true;
+                    mTextView.setText("");
                     mSensorLogger.writeDataToFile("SE:Texting" +
                             Helper.NEW_LINE);
                     Log.i(LOG_TAG, "TEXTVIEW_CLICKED" + mUserTexting);
@@ -91,11 +94,13 @@ public class SensorActivity extends Activity {
             public void onClick(View v) {
                 if (!mPhoneCallStarted) {
                     mPhoneCallStarted = true;
+                    mPhoneCallBtn.setBackgroundColor(BLUE);
                     mPhoneCallBtn.setText("STOP PHONE CALL");
                     mSensorLogger.writeDataToFile("SE:PhoneCall"
                             + Helper.NEW_LINE);
                 } else {
                     mPhoneCallStarted = false;
+                    mPhoneCallBtn.setBackgroundColor(LTBLUE);
                     mPhoneCallBtn.setText("START PHONE CALL");
                     mSensorLogger.writeDataToFile("EE:PhoneCall"
                             + Helper.NEW_LINE);
@@ -108,11 +113,13 @@ public class SensorActivity extends Activity {
             public void onClick(View v) {
                 if (!mGeneralHandlingStarted) {
                     mGeneralHandlingStarted = true;
+                    mGeneralHandlingBtn.setBackgroundColor(BLUE);
                     mGeneralHandlingBtn.setText("STOP GENERAL HANDLING");
                     mSensorLogger.writeDataToFile("SE:GeneralHandling"
                             + Helper.NEW_LINE);
                 } else {
                     mGeneralHandlingStarted = false;
+                    mGeneralHandlingBtn.setBackgroundColor(LTBLUE);
                     mGeneralHandlingBtn.setText("START GENERAL HANDLING");
                     mSensorLogger.writeDataToFile("EE:GeneralHandling"
                             + Helper.NEW_LINE);
@@ -127,7 +134,7 @@ public class SensorActivity extends Activity {
                 enableView();
                 Toast.makeText(getApplicationContext(), Helper.CAPTURE + " STARTED :-) ", Toast.LENGTH_SHORT).show();
                 mSensorLogger = new SensorLogger(getApplicationContext(), SensorActivity.this);
-                mSensorLogger.startLogging("");
+                mSensorLogger.startLogging(Helper.getPhoneName());
                 timer = new Timer();
                 timer.schedule(mSensorLogger, Helper.TIMER_DELAY, Helper.TIMER_PERIOD);
             }
@@ -147,10 +154,10 @@ public class SensorActivity extends Activity {
 
     private void enableView() {
         mTextView.setBackgroundColor(WHITE);
-        mPhoneCallBtn.setBackgroundColor(BLUE);
-        mGeneralHandlingBtn.setBackgroundColor(BLUE);
-        mStartButton.setBackgroundColor(BLUE);
-        mEndButton.setBackgroundColor(BLUE);
+        mPhoneCallBtn.setBackgroundColor(LTBLUE);
+        mGeneralHandlingBtn.setBackgroundColor(LTBLUE);
+        mStartButton.setBackgroundColor(LTBLUE);
+        mEndButton.setBackgroundColor(LTBLUE);
 
         mTextView.setEnabled(true);
         mSwitchButton.setEnabled(true);

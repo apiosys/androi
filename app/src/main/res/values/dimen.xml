@@ -6,4 +6,5 @@
     <dimen name="edittext_vertical_margin">40dp</dimen>
     <dimen name="edittext_horizontal_margin">300dp</dimen>
     <dimen name="Button_Dimen">100dp</dimen>
+    <dimen name="fontSize">20sp</dimen>
 </resources>

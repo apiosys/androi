@@ -24,12 +24,12 @@ public class LinearAccelerometerSensor extends SensorBaseClass implements Sensor
         mContext = context;
         mSensorType = Sensor.TYPE_LINEAR_ACCELERATION;
         if(isSensorAvailable(mSensorType, mContext)) {
-            Log.i(LOG_TAG, "LINEAR ACCELEROMETER PRESENT");
+            //Log.i(LOG_TAG, "LINEAR ACCELEROMETER PRESENT");
             mSensorManager = getSensorManager(mContext);
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_FASTEST);
             mSensor = mSensorManager.getDefaultSensor(mSensorType);
         } else {
-            Log.i(LOG_TAG, "LINEAR ACCELEROMETER ABSENT");
+            //Log.i(LOG_TAG, "LINEAR ACCELEROMETER ABSENT");
         }
     }
 

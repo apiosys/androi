@@ -22,12 +22,12 @@ public class MagnetometerSensor extends SensorBaseClass implements SensorEventLi
         this.mContext = context;
         mSensorType = Sensor.TYPE_MAGNETIC_FIELD;
         if(isSensorAvailable(mSensorType, mContext)) {
-            Log.i(LOG_TAG,"MAGNETOMETER PRESENT");
+            //Log.i(LOG_TAG,"MAGNETOMETER PRESENT");
             mSensorManager = getSensorManager(mContext);
             mSensor = mSensorManager.getDefaultSensor(mSensorType);
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_FASTEST);
         }else{
-            Log.i(LOG_TAG,"MAGNETOMETER ABSENT");
+            //Log.i(LOG_TAG,"MAGNETOMETER ABSENT");
         }
     }
 

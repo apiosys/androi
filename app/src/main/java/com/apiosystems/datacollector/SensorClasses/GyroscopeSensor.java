@@ -26,12 +26,12 @@ public class GyroscopeSensor extends SensorBaseClass implements SensorEventListe
         this.mContext = context;
         mSensorType = Sensor.TYPE_GYROSCOPE;
         if(isSensorAvailable(mSensorType, mContext)) {
-            Log.i(LOG_TAG, "GYROSCOPE_SENSOR PRESENT");
+            //Log.i(LOG_TAG, "GYROSCOPE_SENSOR PRESENT");
             mSensorManager = getSensorManager(context);
             mSensor = mSensorManager.getDefaultSensor(mSensorType);
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_FASTEST);
         } else {
-            Log.i(LOG_TAG, "GYROSCOPE_SENSOR ABSENT");
+            //Log.i(LOG_TAG, "GYROSCOPE_SENSOR ABSENT");
         }
     }
 
@@ -62,7 +62,7 @@ public class GyroscopeSensor extends SensorBaseClass implements SensorEventListe
     }
 
     public float[] getValues() {
-        Log.i(LOG_TAG,String.valueOf(values[0])+String.valueOf(values[1]));
+        //Log.i(LOG_TAG,String.valueOf(values[0])+String.valueOf(values[1]));
         return values;
     }
 

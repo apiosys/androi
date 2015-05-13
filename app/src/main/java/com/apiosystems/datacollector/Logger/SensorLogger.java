@@ -9,6 +9,7 @@ import com.apiosystems.datacollector.SensorClasses.AccelerometerSensor;
 import com.apiosystems.datacollector.SensorClasses.GravitySensor;
 import com.apiosystems.datacollector.SensorClasses.GyroscopeSensor;
 import com.apiosystems.datacollector.SensorClasses.LinearAccelerometerSensor;
+import com.apiosystems.datacollector.SensorClasses.LocationSensor;
 import com.apiosystems.datacollector.SensorClasses.LocationSensor2;
 import com.apiosystems.datacollector.SensorClasses.MagnetometerSensor;
 import com.apiosystems.datacollector.SensorClasses.OrientationSensorKitkat;
@@ -36,7 +37,8 @@ public class SensorLogger extends TimerTask {
     public static LinearAccelerometerSensor mLinAccSensor = null;
     public static RawMagnetometerSensor mRawMagSensor = null;
     public static OrientationSensorKitkat mOriSensor = null;
-    public static LocationSensor2 mLocSensor = null;
+    public static LocationSensor mLocSensor = null;
+    public static LocationSensor2 mLocSensor2 = null;
     public static ProximitySensor mProxSensor = null;
     public static RotationSensor mRotSensor = null;//Used for Attitude
     public static Context mContext;
@@ -66,7 +68,8 @@ public class SensorLogger extends TimerTask {
         this.mMagSensor = new MagnetometerSensor(mContext);
         this.mOriSensor = new OrientationSensorKitkat(mContext);
         this.mGtySensor = new GravitySensor(mContext);
-        this.mLocSensor = new LocationSensor2(mContext, activity);
+        this.mLocSensor = new LocationSensor(mContext, activity);
+        this.mLocSensor2 = new LocationSensor2(mContext, activity);
         this.mRotSensor = new RotationSensor(mContext);
         this.mProxSensor = new ProximitySensor(mContext);
         this.mLinAccSensor = new LinearAccelerometerSensor(mContext);
@@ -96,6 +99,7 @@ public class SensorLogger extends TimerTask {
         mOriSensor.registerSensor();
         mGtySensor.registerSensor();
         mLocSensor.registerSensor();
+        mLocSensor2.registerSensor();
         mProxSensor.registerSensor();
         mRotSensor.registerSensor();
         mLinAccSensor.registerSensor();
@@ -115,7 +119,7 @@ public class SensorLogger extends TimerTask {
         rotValuesStr = mRotSensor.getValuesStr() ;
         locmetaValuesStr = mLocSensor.getLocMeta();
         rawaccValuesStr = Helper.NO_SENSOR_VALUES;
-        activityrecognition_confidence_activity = Helper.DASH;
+        activityrecognition_confidence_activity = Helper.DASH + Helper.SPACE;
 
         String mSensorValues =    magValuesStr//1,2,3
                                 + accValuesStr//4,5,6
@@ -155,27 +159,11 @@ public class SensorLogger extends TimerTask {
         mOriSensor.unregisterSensor();
         mGtySensor.unregisterSensor();
         mLocSensor.unregisterSensor();
+        mLocSensor2.unregisterSensor();
         mRotSensor.unregisterSensor();
         mProxSensor.unregisterSensor();
         mLinAccSensor.unregisterSensor();
         mRawMagSensor.unregisterSensor();
-    }
-
-    public String initializeHeaders(){
-        String mAccFormat = "Acc-x Acc-y Acc-z ";
-        String mGyrFormat = "Gyr-x Gyr-y Gyr-z ";
-        String mMagFormat = "Mag-x Mag-y Mag-z ";
-        String mOriFormat = "Ori-x Ori-y Ori-z ";
-        String mGtyFormat = "Gty-x Gty-y Gty-z ";
-        String mLocFormat = "Loc-lat Loc-lon Loc-Speed" ;
-        String mLogFormat =   mGyrFormat
-                            + mGtyFormat
-                            + mOriFormat
-                            + mAccFormat
-                            + mMagFormat
-                            + mLocFormat
-                            + Helper.NEW_LINE ;
-        return mLogFormat;
     }
 
     public void initializeBufferedWriter(){
@@ -197,14 +185,15 @@ public class SensorLogger extends TimerTask {
             if (!sensorLogDir.exists()) {
                 sensorLogDir.mkdirs();
             }
-            sensorLogFile = new File(sensorLogDir, Helper.getCurrentDateTimeForFile() + "_log" + ".txt");
+            sensorLogFile = new File(sensorLogDir, fileName + "_" +
+                    Helper.getCurrentDateTimeForFile() + "_log" + ".txt");
             if (!sensorLogFile.exists()) {
                 try{
                     sensorLogFile.createNewFile();
                 }catch(IOException ioe){
                     Log.i(LOG_TAG, "sensorLogFile : " + ioe);
                 }
-                Log.i(LOG_TAG,"sensorLogFile Not Created");
+                Log.i(LOG_TAG,"sensorLogFile Created");
             }
         } else {
             Log.i(LOG_TAG, "Cannot Write to External Storage");

@@ -1,5 +1,8 @@
 package com.apiosystems.datacollector.util;
 
+import android.bluetooth.BluetoothAdapter;
+import android.util.Log;
+
 import com.apiosystems.datacollector.ui.SensorActivity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,6 +22,8 @@ public class Helper {
     public static final String PASSENGER = "NOTICE:UserIsTheDriver:NO";
     public static final long TIMER_PERIOD = 30;//millis
     public static final long TIMER_DELAY = 1*1000;//millis
+    public static final String LOG_TAG = "DATACAPTURE";
+    public static BluetoothAdapter myDevice;
 
     public static String getCurrentDateTime(){
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HHmmss");
@@ -62,5 +67,12 @@ public class Helper {
         Calendar cal = Calendar.getInstance();
         String currentDateTimeForFile = dateFormat.format(cal.getTime());
         return currentDateTimeForFile;
+    }
+
+    public static String getPhoneName(){
+        myDevice = BluetoothAdapter.getDefaultAdapter();
+        String deviceName = myDevice.getName();
+        Log.i("DEVICE_NAME : ", deviceName);
+        return  deviceName;
     }
 }
