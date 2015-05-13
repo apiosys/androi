@@ -16,6 +16,7 @@ import com.apiosystems.datacollector.SensorClasses.OrientationSensorKitkat;
 import com.apiosystems.datacollector.SensorClasses.ProximitySensor;
 import com.apiosystems.datacollector.SensorClasses.RawMagnetometerSensor;
 import com.apiosystems.datacollector.SensorClasses.RotationSensor;
+import com.apiosystems.datacollector.service.ApioActivityRecognitionService;
 import com.apiosystems.datacollector.util.Helper;
 
 import java.io.BufferedWriter;
@@ -40,6 +41,7 @@ public class SensorLogger extends TimerTask {
     public static LocationSensor mLocSensor = null;
     public static LocationSensor2 mLocSensor2 = null;
     public static ProximitySensor mProxSensor = null;
+    public static ApioActivityRecognitionService mActRecognition = null;
     public static RotationSensor mRotSensor = null;//Used for Attitude
     public static Context mContext;
 
@@ -58,6 +60,7 @@ public class SensorLogger extends TimerTask {
     String rawaccValuesStr = null;
     String activityrecognition_confidence_activity = null;
     String proxValuesStr = null;
+    String actrecogValuesStr = null;
     String rotValuesStr = null ;//attitude
     String locmetaValuesStr = null;
 
@@ -72,6 +75,7 @@ public class SensorLogger extends TimerTask {
         this.mLocSensor2 = new LocationSensor2(mContext, activity);
         this.mRotSensor = new RotationSensor(mContext);
         this.mProxSensor = new ProximitySensor(mContext);
+        this.mActRecognition = new ApioActivityRecognitionService(mContext);//Activity
         this.mLinAccSensor = new LinearAccelerometerSensor(mContext);
         this.mRawMagSensor = new RawMagnetometerSensor(mContext);
     }
@@ -114,6 +118,7 @@ public class SensorLogger extends TimerTask {
         magValuesStr = mMagSensor.getValuesStr();
         locValuesStr = mLocSensor.getValuesStr();
         proxValuesStr = mProxSensor.getDistanceStr();
+        actrecogValuesStr = mActRecognition.getValuesStr();//TODO
         laccValuesStr = mLinAccSensor.getValuesStr();
         rmagValuesStr = mRawMagSensor.getValuesStr();
         rotValuesStr = mRotSensor.getValuesStr() ;

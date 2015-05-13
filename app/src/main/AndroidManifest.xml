@@ -28,8 +28,13 @@
             </intent-filter>
 
         </activity>
-
-        <service android:enabled="true" android:name="com.apiosystems.datacollector.service.ActivityRecognitionIntentService" />
+        <service
+            android:name="com.apiosystems.datacollector.service.ApioActivityRecognitionService" >
+        </service>
+        <service
+            android:name="com.apiosystems.datacollector.service.ActivityRecognitionIntentService"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>
