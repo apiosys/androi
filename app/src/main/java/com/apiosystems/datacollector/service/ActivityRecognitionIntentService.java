@@ -35,7 +35,8 @@ public class ActivityRecognitionIntentService extends IntentService {
              * the user's actual activity
              */
             int confidence = mostProbableActivity.getConfidence();
-            String confidencestr = String.valueOf(confidence);
+
+            String confidencestr = getConfidenceRange(confidence);
             /*
              * Get an integer describing the type of activity
              */
@@ -65,27 +66,42 @@ public class ActivityRecognitionIntentService extends IntentService {
     private String getNameFromType(int activityType) {
         switch(activityType) {
             case DetectedActivity.IN_VEHICLE:
-                String inVehicle = "in_vehicle";
+                String inVehicle = "InVehicle";
                 return inVehicle;
             case DetectedActivity.ON_BICYCLE:
-                return "on_bicycle";
+                return "ON_BICYCLE";
             case DetectedActivity.ON_FOOT:
-                String onFoot = "on foot";
+                String onFoot = "OnFoot";
                 return onFoot;
             case DetectedActivity.RUNNING:
-                String running = "running";
-                return "running";
+                String running = "Running";
+                return running;
             case DetectedActivity.STILL:
-                return "still";
+                return "Stationary";
             case DetectedActivity.UNKNOWN:
-                return "unknown";
+                return "Unknown";
             case DetectedActivity.TILTING:
-                return "tilting";
+                return "Tilting";
             case DetectedActivity.WALKING:
-                String walking = "walking";
+                String walking = "Walking";
                 return walking;
         }
-        return "unknown";
+        return "Unknown";
+    }
+
+    private String getConfidenceRange(int i){
+        String range;
+        i = Math.abs(i);
+        if(i <= 33){
+            range = "LowConfidence";
+        }else if(i <= 66){
+            range = "MedConfidence";
+        }else if(i <= 100){
+            range = "HighConfidence";
+        }else{
+            range = "-";
+        }
+         return range;
     }
 
     private void broadcastNewActivityRecognized(String activityName, String confidence){
