@@ -28,7 +28,7 @@ import java.util.TimerTask;
 public class SensorLogger extends TimerTask {
 
     public static final String LOG_TAG = "SENSOR_LOGGER";
-    public static final String DIRECTORY_APIO_DATA_CAPTURE = "/DataCollection/";
+    public static final String DIRECTORY_APIO_DATA_CAPTURE = "/ApioDataCapture/";
     public static boolean mFlagOn = false;
 
     public static AccelerometerSensor mAccSensor = null;
@@ -134,7 +134,7 @@ public class SensorLogger extends TimerTask {
                                 + rmagValuesStr//16,17,18
                                 + locmetaValuesStr//19,20,21,22,23
                                 + rawaccValuesStr//24,25,26
-                                + activityrecognition_confidence_activity//27
+                                + actrecogValuesStr
                                 + proxValuesStr//28
                                 + oriValuesStr//29
                                 + Helper.NEW_LINE ;

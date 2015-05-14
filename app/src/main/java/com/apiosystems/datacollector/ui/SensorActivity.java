@@ -132,7 +132,6 @@ public class SensorActivity extends Activity {
             public void onClick(View v) {
                 mStartLog = true;
                 enableView();
-                Toast.makeText(getApplicationContext(), Helper.CAPTURE + " STARTED :-) ", Toast.LENGTH_SHORT).show();
                 mSensorLogger = new SensorLogger(getApplicationContext(), SensorActivity.this);
                 mSensorLogger.startLogging(Helper.getPhoneName());
                 timer = new Timer();
@@ -144,7 +143,6 @@ public class SensorActivity extends Activity {
             @Override
             public void onClick(View v) {
                 disableView();
-                Toast.makeText(getApplicationContext(), Helper.CAPTURE + " STOPPED :-( ", Toast.LENGTH_SHORT).show();
                 mSensorLogger.stopLogging();
                 timer.cancel();
                 timer.purge();

@@ -69,7 +69,7 @@ public class ActivityRecognitionIntentService extends IntentService {
                 String inVehicle = "InVehicle";
                 return inVehicle;
             case DetectedActivity.ON_BICYCLE:
-                return "ON_BICYCLE";
+                return "OnBicycle";
             case DetectedActivity.ON_FOOT:
                 String onFoot = "OnFoot";
                 return onFoot;
@@ -92,9 +92,9 @@ public class ActivityRecognitionIntentService extends IntentService {
     private String getConfidenceRange(int i){
         String range;
         i = Math.abs(i);
-        if(i <= 33){
+        if(i <= 50){
             range = "LowConfidence";
-        }else if(i <= 66){
+        }else if(i <= 75){
             range = "MedConfidence";
         }else if(i <= 100){
             range = "HighConfidence";

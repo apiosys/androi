@@ -135,11 +135,11 @@ public class LocationSensor implements
     public String getLocMeta() {
         String locmeta;
         if (mGoogleApiClient.isConnected()) {
-            locmeta = String.valueOf(locTime) + Helper.SPACE
+            locmeta = String.valueOf(0.0) + Helper.SPACE
+                    + String.valueOf(locTime) + Helper.SPACE
                     + String.valueOf(horaccu) + Helper.SPACE
                     + Helper.DASH + Helper.SPACE //Vertical Accuracy
-                    + String.valueOf(speed) + Helper.SPACE
-                    + String.valueOf(0.0) + Helper.SPACE;
+                    + String.valueOf(speed) + Helper.SPACE;
         } else {
             locmeta = "- - - - - ";
         }

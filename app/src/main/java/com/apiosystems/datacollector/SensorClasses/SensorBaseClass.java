@@ -20,10 +20,10 @@ import android.util.Log;
     //We wont have an onCreate method as this class does not have an UI.
     public static boolean isSensorAvailable(int type, Context context){
         if(mSensorManager.getDefaultSensor(type)!=null){
-            Log.d(LOG_TAG, "Sensor: " + type + " is Available");
+        //    Log.d(LOG_TAG, "Sensor: " + type + " is Available");
             return true;
         }
-        Log.d(LOG_TAG, "Sensor: " + type + " is not Available");
+        //Log.d(LOG_TAG, "Sensor: " + type + " is not Available");
         return false;
     }
 
