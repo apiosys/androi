@@ -1,6 +1,7 @@
 package com.apiosystems.datacollector.ui;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 import com.apiosystems.datacollector.Logger.SensorLogger;
+import com.apiosystems.datacollector.SensorClasses.DeviceOrientation;
 import com.apiosystems.datacollector.util.Helper;
 import com.apiosystems.datacollector.util.TextViewBackEvent;
 
@@ -55,7 +57,7 @@ public class SensorActivity extends Activity {
         WHITE = Color.WHITE;
 
         disableView();
-
+        DeviceOrientation.config = getResources().getConfiguration();
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,13 +184,18 @@ public class SensorActivity extends Activity {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if(mStartLog) {
+            enableView();
+        }
+        Log.i(LOG_TAG,"ON_CONFIGURATION_CHANGED");
+        DeviceOrientation.onConfigurationChanged(newConfig);
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        if(mStartLog){
-            mStartLog = false;
-            mSensorLogger.stopLogging();
-            timer.cancel();
-        }
     }
 
     @Override
@@ -203,6 +210,17 @@ public class SensorActivity extends Activity {
 
     @Override
     protected void onStop() {
+
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        /*if(mStartLog){
+            mStartLog = false;
+            mSensorLogger.stopLogging();
+            timer.cancel();
+        }*/
+        super.onDestroy();
     }
 }

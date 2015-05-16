@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.apiosystems.datacollector.SensorClasses.AccelerometerSensor;
+import com.apiosystems.datacollector.SensorClasses.DeviceOrientation;
 import com.apiosystems.datacollector.SensorClasses.GravitySensor;
 import com.apiosystems.datacollector.SensorClasses.GyroscopeSensor;
 import com.apiosystems.datacollector.SensorClasses.LinearAccelerometerSensor;
@@ -41,6 +42,7 @@ public class SensorLogger extends TimerTask {
     public static LocationSensor mLocSensor = null;
     public static LocationSensor2 mLocSensor2 = null;
     public static ProximitySensor mProxSensor = null;
+    public static DeviceOrientation mDeviceOrientation = null;
     public static ApioActivityRecognitionService mActRecognition = null;
     public static RotationSensor mRotSensor = null;//Used for Attitude
     public static Context mContext;
@@ -61,6 +63,7 @@ public class SensorLogger extends TimerTask {
     String activityrecognition_confidence_activity = null;
     String proxValuesStr = null;
     String actrecogValuesStr = null;
+    String deviceorientation = null;
     String rotValuesStr = null ;//attitude
     String locmetaValuesStr = null;
 
@@ -76,6 +79,7 @@ public class SensorLogger extends TimerTask {
         this.mRotSensor = new RotationSensor(mContext);
         this.mProxSensor = new ProximitySensor(mContext);
         this.mActRecognition = new ApioActivityRecognitionService(mContext);//Activity
+        this.mDeviceOrientation = new DeviceOrientation();
         this.mLinAccSensor = new LinearAccelerometerSensor(mContext);
         this.mRawMagSensor = new RawMagnetometerSensor(mContext);
     }
@@ -123,6 +127,7 @@ public class SensorLogger extends TimerTask {
         rmagValuesStr = mRawMagSensor.getValuesStr();
         rotValuesStr = mRotSensor.getValuesStr() ;
         locmetaValuesStr = mLocSensor.getLocMeta();
+        deviceorientation = DeviceOrientation.getValuesStr();
         rawaccValuesStr = Helper.NO_SENSOR_VALUES;
         activityrecognition_confidence_activity = Helper.DASH + Helper.SPACE;
 
