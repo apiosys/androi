@@ -33,6 +33,9 @@ public class SensorActivity extends Activity {
     public static int GREY;
     public static int WHITE;
 
+    public static String deviceName = android.os.Build.MODEL;
+    public static String deviceMan = android.os.Build.MANUFACTURER;
+
     public static SensorLogger mSensorLogger;
     public static boolean isDriver = false;
     public static boolean mStartLog = false;
@@ -75,17 +78,17 @@ public class SensorActivity extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                if(isChecked){
+                if(!isChecked){
                     isDriver = true;
                     mSwitchButton.setText("DRIVER");
-                    mSensorLogger.writeDataToFile(Helper.DRIVER
-                            + Helper.NEW_LINE);
+                    //mSensorLogger.writeDataToFile(Helper.DRIVER
+                    //        + Helper.NEW_LINE);
                     Log.i(LOG_TAG,"DRIVER");
                 }else{
                     isDriver = false;
                     mSwitchButton.setText("PASSENGER");
-                    mSensorLogger.writeDataToFile(Helper.PASSENGER
-                            + Helper.NEW_LINE);
+                    //mSensorLogger.writeDataToFile(Helper.PASSENGER
+                    //        + Helper.NEW_LINE);
                     Log.i(LOG_TAG, "PASSENGER");
                 }
             }
@@ -95,15 +98,11 @@ public class SensorActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (!mPhoneCallStarted) {
-                    mPhoneCallStarted = true;
-                    mPhoneCallBtn.setBackgroundColor(BLUE);
-                    mPhoneCallBtn.setText("STOP PHONE CALL");
+                    startPhoneCallSnippet();
                     mSensorLogger.writeDataToFile("SE:PhoneCall"
                             + Helper.NEW_LINE);
                 } else {
-                    mPhoneCallStarted = false;
-                    mPhoneCallBtn.setBackgroundColor(LTBLUE);
-                    mPhoneCallBtn.setText("START PHONE CALL");
+                    stopPhoneCallSnippet();
                     mSensorLogger.writeDataToFile("EE:PhoneCall"
                             + Helper.NEW_LINE);
                 }
@@ -114,15 +113,11 @@ public class SensorActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (!mGeneralHandlingStarted) {
-                    mGeneralHandlingStarted = true;
-                    mGeneralHandlingBtn.setBackgroundColor(BLUE);
-                    mGeneralHandlingBtn.setText("STOP GENERAL HANDLING");
+                    startGeneralHandlingSnippet();
                     mSensorLogger.writeDataToFile("SE:GeneralHandling"
                             + Helper.NEW_LINE);
                 } else {
-                    mGeneralHandlingStarted = false;
-                    mGeneralHandlingBtn.setBackgroundColor(LTBLUE);
-                    mGeneralHandlingBtn.setText("START GENERAL HANDLING");
+                    stopGeneralHandlingSnippet();
                     mSensorLogger.writeDataToFile("EE:GeneralHandling"
                             + Helper.NEW_LINE);
                 }
@@ -144,12 +139,41 @@ public class SensorActivity extends Activity {
         mEndButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                stopPhoneCallSnippet();
+                stopGeneralHandlingSnippet();
                 disableView();
+                mStartLog = false;
                 mSensorLogger.stopLogging();
                 timer.cancel();
                 timer.purge();
             }
         });
+    }
+
+    private void startPhoneCallSnippet(){
+        mPhoneCallStarted = true;
+        mPhoneCallBtn.setBackgroundColor(BLUE);
+        mPhoneCallBtn.setText("STOP PHONE CALL");
+    }
+
+    private void stopPhoneCallSnippet(){
+        mPhoneCallStarted = false;
+        mPhoneCallBtn.setBackgroundColor(LTBLUE);
+        mPhoneCallBtn.setText("START PHONE CALL");
+    }
+
+    private void startGeneralHandlingSnippet(){
+        mGeneralHandlingStarted = true;
+        mGeneralHandlingBtn.setBackgroundColor(BLUE);
+        mGeneralHandlingBtn.setText("STOP GENERAL HANDLING");
+
+    }
+
+    private void stopGeneralHandlingSnippet(){
+        mGeneralHandlingStarted = false;
+        mGeneralHandlingBtn.setBackgroundColor(LTBLUE);
+        mGeneralHandlingBtn.setText("START GENERAL HANDLING");
+
     }
 
     private void enableView() {
@@ -160,7 +184,7 @@ public class SensorActivity extends Activity {
         mEndButton.setBackgroundColor(LTBLUE);
 
         mTextView.setEnabled(true);
-        mSwitchButton.setEnabled(true);
+        mSwitchButton.setEnabled(false);//Dont change Role while logging
         mPhoneCallBtn.setEnabled(true);
         mGeneralHandlingBtn.setEnabled(true);
         mStartButton.setEnabled(false);
@@ -174,9 +198,10 @@ public class SensorActivity extends Activity {
         mStartButton.setBackgroundColor(GREY);
         mEndButton.setBackgroundColor(GREY);
 
+        mTextView.setText(" ");
         mTextView.setEnabled(false);
-        mSwitchButton.setChecked(false);
-        mSwitchButton.setEnabled(false);
+        //mSwitchButton.setChecked(false);
+        mSwitchButton.setEnabled(true);//Change Role before Logging
         mPhoneCallBtn.setEnabled(false);
         mGeneralHandlingBtn.setEnabled(false);
         mStartButton.setEnabled(true);
@@ -187,6 +212,12 @@ public class SensorActivity extends Activity {
     public void onConfigurationChanged(Configuration newConfig) {
         if(mStartLog) {
             enableView();
+        }
+        if(mGeneralHandlingStarted){
+            mGeneralHandlingBtn.setBackgroundColor(BLUE);
+        }
+        if (mPhoneCallStarted){
+            mPhoneCallBtn.setBackgroundColor(BLUE);
         }
         Log.i(LOG_TAG,"ON_CONFIGURATION_CHANGED");
         DeviceOrientation.onConfigurationChanged(newConfig);

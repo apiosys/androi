@@ -18,6 +18,7 @@ import com.apiosystems.datacollector.SensorClasses.ProximitySensor;
 import com.apiosystems.datacollector.SensorClasses.RawMagnetometerSensor;
 import com.apiosystems.datacollector.SensorClasses.RotationSensor;
 import com.apiosystems.datacollector.service.ApioActivityRecognitionService;
+import com.apiosystems.datacollector.ui.SensorActivity;
 import com.apiosystems.datacollector.util.Helper;
 
 import java.io.BufferedWriter;
@@ -88,7 +89,11 @@ public class SensorLogger extends TimerTask {
         mFlagOn = true;
         mExperimentFile = getFile(fileName);
         initializeBufferedWriter();
-        writeDataToFile(Helper.PASSENGER + Helper.NEW_LINE);
+        if(!SensorActivity.isDriver) {
+            writeDataToFile(Helper.PASSENGER + Helper.NEW_LINE);
+        }else{
+            writeDataToFile(Helper.DRIVER + Helper.NEW_LINE);
+        }
         registerSensors();
     }
 
@@ -141,7 +146,7 @@ public class SensorLogger extends TimerTask {
                                 + rawaccValuesStr//24,25,26
                                 + actrecogValuesStr
                                 + proxValuesStr//28
-                                + oriValuesStr//29
+                                + deviceorientation//29
                                 + Helper.NEW_LINE ;
         return mSensorValues;
     }

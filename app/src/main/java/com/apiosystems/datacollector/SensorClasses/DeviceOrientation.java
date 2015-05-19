@@ -44,7 +44,7 @@ public class DeviceOrientation {
     }
 
     public static String getValuesStr(){
-        Log.i(LOG_TAG, mDeviceOrientation);
+        //Log.i(LOG_TAG, mDeviceOrientation);
         return mDeviceOrientation + Helper.SPACE;
     }
 

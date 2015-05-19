@@ -34,6 +34,7 @@ public class TextViewBackEvent extends TextView {
     public void onEditorAction(int actionCode) {
         if (actionCode == EditorInfo.IME_ACTION_DONE) {
             SensorActivity.mUserTexting = false;
+            setText(" ");
             SensorActivity.mSensorLogger.writeDataToFile("EE:Texting" +
                     Helper.NEW_LINE);
             Log.i("onEditorAction", "DONE");

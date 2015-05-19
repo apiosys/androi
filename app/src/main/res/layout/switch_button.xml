@@ -23,7 +23,9 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="right"
         android:gravity="center"
-        android:text="PASSENGER"
+        android:textOn=" "
+        android:textOff=" "
+        android:text="DRIVER"
         android:layout_marginTop="5dp" />
 
 </FrameLayout>

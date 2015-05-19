@@ -22,5 +22,6 @@
         android:focusableInTouchMode="true"
         android:imeOptions="actionDone"
         android:singleLine="true"
-        android:autoText="true" />
+        android:autoText="true"
+        />
 </FrameLayout>

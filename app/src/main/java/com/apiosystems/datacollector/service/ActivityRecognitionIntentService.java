@@ -51,7 +51,7 @@ public class ActivityRecognitionIntentService extends IntentService {
              * Intent.
              */
             final String log = "ActivityRecognitionResult has result: activityName: " + activityName + " confidence: " + confidencestr;
-            Log.d(LOG_TAG, log);
+            //Log.d(LOG_TAG, log);
             broadcastNewActivityRecognized(activityName, confidencestr);
         } else {
             /*

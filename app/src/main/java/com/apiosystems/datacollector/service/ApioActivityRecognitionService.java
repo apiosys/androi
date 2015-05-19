@@ -32,10 +32,10 @@ public class ApioActivityRecognitionService extends Service {
     public ApioActivityRecognitionService(Context context){
         super();
         //mContext = context;
-        Log.i(LOG_TAG, "ApioActivityRecognitionService(Context context)");
+        //Log.i(LOG_TAG, "ApioActivityRecognitionService(Context context)");
         this.mContext = context;
         initActivityRecognition();
-        Log.i(LOG_TAG, "ACTIVITY_APICLIENT");
+        //Log.i(LOG_TAG, "ACTIVITY_APICLIENT");
         connectPlayServices();
     }
 
@@ -45,7 +45,7 @@ public class ApioActivityRecognitionService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(LOG_TAG, "Service onStartCommand");
+        //Log.i(LOG_TAG, "Service onStartCommand");
         if (intent != null) {
             if (intent.hasExtra(ActivityRecognitionIntentService.ACTIVITY_NAME_KEY)) {
                 activityName = intent.getStringExtra(ActivityRecognitionIntentService.ACTIVITY_NAME_KEY);
@@ -65,7 +65,7 @@ public class ApioActivityRecognitionService extends Service {
 
     public String getValuesStr(){
         String valuesstr = getConfidencestr() + ":" + getActivityName() + Helper.SPACE;
-        Log.i(LOG_TAG,valuesstr);
+        //Log.i(LOG_TAG,valuesstr);
         return valuesstr;
     }
     @Override
