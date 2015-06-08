@@ -4,28 +4,18 @@
     android:layout_height="match_parent"
     android:layout_weight="1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="@string/UserIs"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:enabled="false"
-        android:textSize="@dimen/fontSize"
-        android:textStyle="bold|normal"
-        android:textColor="@color/BLACK" />
-
     <Switch
         android:id="@+id/switch_button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:checked="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_gravity="right"
         android:gravity="center"
         android:textOn=" "
         android:textOff=" "
-        android:text="DRIVER"
+        android:text="@string/UserIsDriver"
         android:layout_marginTop="5dp" />
 
 </FrameLayout>

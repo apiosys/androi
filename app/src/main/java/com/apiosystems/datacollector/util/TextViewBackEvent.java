@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.apiosystems.datacollector.ui.SensorActivity;
@@ -14,7 +15,7 @@ import com.apiosystems.datacollector.ui.SensorActivity;
 /**
  * Created by Akshayraj on 5/7/15.
  */
-public class TextViewBackEvent extends TextView {
+public class TextViewBackEvent extends EditText {
 
     private TextViewImeBackListener mOnImeBack;
 
@@ -34,7 +35,7 @@ public class TextViewBackEvent extends TextView {
     public void onEditorAction(int actionCode) {
         if (actionCode == EditorInfo.IME_ACTION_DONE) {
             SensorActivity.mUserTexting = false;
-            setText(" ");
+            setText(Helper.START_TEXTING);
             SensorActivity.mSensorLogger.writeDataToFile("EE:Texting" +
                     Helper.NEW_LINE);
             Log.i("onEditorAction", "DONE");

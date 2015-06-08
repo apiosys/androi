@@ -12,6 +12,7 @@
         android:id="@+id/textView"
         android:background="@color/accent_material_light"
         android:layout_margin="@dimen/margin"
+        android:gravity="top"
         android:layout_gravity="left|top"
         android:cursorVisible="true"
         android:onClick=" "

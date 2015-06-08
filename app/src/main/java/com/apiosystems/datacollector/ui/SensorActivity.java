@@ -37,7 +37,7 @@ public class SensorActivity extends Activity {
     public static String deviceMan = android.os.Build.MANUFACTURER;
 
     public static SensorLogger mSensorLogger;
-    public static boolean isDriver = false;
+    public static boolean isDriver = true;
     public static boolean mStartLog = false;
     public static boolean mPhoneCallStarted = false;
     public static boolean mGeneralHandlingStarted = false;
@@ -78,15 +78,15 @@ public class SensorActivity extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                if(!isChecked){
+                if(isChecked){
                     isDriver = true;
-                    mSwitchButton.setText("DRIVER");
+                    mSwitchButton.setText("User is : DRIVER ");
                     //mSensorLogger.writeDataToFile(Helper.DRIVER
-                    //        + Helper.NEW_LINE);
+                    //      + Helper.NEW_LINE);
                     Log.i(LOG_TAG,"DRIVER");
                 }else{
                     isDriver = false;
-                    mSwitchButton.setText("PASSENGER");
+                    mSwitchButton.setText("User is : PASSENGER ");
                     //mSensorLogger.writeDataToFile(Helper.PASSENGER
                     //        + Helper.NEW_LINE);
                     Log.i(LOG_TAG, "PASSENGER");
@@ -184,6 +184,7 @@ public class SensorActivity extends Activity {
         mEndButton.setBackgroundColor(LTBLUE);
 
         mTextView.setEnabled(true);
+        mTextView.setText(Helper.START_TEXTING);
         mSwitchButton.setEnabled(false);//Dont change Role while logging
         mPhoneCallBtn.setEnabled(true);
         mGeneralHandlingBtn.setEnabled(true);
@@ -198,7 +199,7 @@ public class SensorActivity extends Activity {
         mStartButton.setBackgroundColor(GREY);
         mEndButton.setBackgroundColor(GREY);
 
-        mTextView.setText(" ");
+        mTextView.setText("");
         mTextView.setEnabled(false);
         //mSwitchButton.setChecked(false);
         mSwitchButton.setEnabled(true);//Change Role before Logging

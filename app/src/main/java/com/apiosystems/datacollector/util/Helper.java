@@ -18,6 +18,7 @@ public class Helper {
     public static final String NEW_LINE = "\n";
     public static final String SPACE = " ";
     public static final String DASH = "-";
+    public static final String START_TEXTING = "Enter Text Here";
     public static final String DRIVER ="NOTICE:UserIsTheDriver:YES";
     public static final String PASSENGER = "NOTICE:UserIsTheDriver:NO";
     public static final long TIMER_PERIOD = 30;//millis

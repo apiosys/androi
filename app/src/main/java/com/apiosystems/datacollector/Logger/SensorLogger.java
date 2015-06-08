@@ -123,17 +123,17 @@ public class SensorLogger extends TimerTask {
         gyrValuesStr = mGyrSensor.getValuesStr();
         gtyValuesStr = mGtySensor.getValuesStr();
         oriValuesStr = mOriSensor.getValuesStr();
-        accValuesStr = mAccSensor.getValuesStr();
+        accValuesStr = mLinAccSensor.getValuesStr();
         magValuesStr = mMagSensor.getValuesStr();
         locValuesStr = mLocSensor.getValuesStr();
         proxValuesStr = mProxSensor.getDistanceStr();
-        actrecogValuesStr = mActRecognition.getValuesStr();//TODO
+        actrecogValuesStr = mActRecognition.getValuesStr();
         laccValuesStr = mLinAccSensor.getValuesStr();
         rmagValuesStr = mRawMagSensor.getValuesStr();
         rotValuesStr = mRotSensor.getValuesStr() ;
         locmetaValuesStr = mLocSensor.getLocMeta();
         deviceorientation = DeviceOrientation.getValuesStr();
-        rawaccValuesStr = Helper.NO_SENSOR_VALUES;
+        rawaccValuesStr = mAccSensor.getValuesStr();
         activityrecognition_confidence_activity = Helper.DASH + Helper.SPACE;
 
         String mSensorValues =    magValuesStr//1,2,3
