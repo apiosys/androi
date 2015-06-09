@@ -78,13 +78,13 @@ public class SensorActivity extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     isDriver = true;
                     mSwitchButton.setText("User is : DRIVER ");
                     //mSensorLogger.writeDataToFile(Helper.DRIVER
                     //      + Helper.NEW_LINE);
-                    Log.i(LOG_TAG,"DRIVER");
-                }else{
+                    Log.i(LOG_TAG, "DRIVER");
+                } else {
                     isDriver = false;
                     mSwitchButton.setText("User is : PASSENGER ");
                     //mSensorLogger.writeDataToFile(Helper.PASSENGER
@@ -130,9 +130,20 @@ public class SensorActivity extends Activity {
                 mStartLog = true;
                 enableView();
                 mSensorLogger = new SensorLogger(getApplicationContext(), SensorActivity.this);
-                mSensorLogger.startLogging(Helper.getPhoneName());
-                timer = new Timer();
-                timer.schedule(mSensorLogger, Helper.TIMER_DELAY, Helper.TIMER_PERIOD);
+                Thread loggerThread = new Thread(new Runnable() {
+                    /**
+                     * Starts executing the active part of the class' code. This method is
+                     * called when a thread is started that has been created with a class which
+                     * implements {@code Runnable}.
+                     */
+                    @Override
+                    public void run() {
+                        mSensorLogger.startLogging(Helper.getPhoneName());
+                        timer = new Timer();
+                        timer.schedule(mSensorLogger,Helper.TIMER_DELAY,Helper.TIMER_PERIOD);
+                    }
+                });
+                loggerThread.start();
             }
         });
 

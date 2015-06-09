@@ -48,10 +48,22 @@ public class Helper {
     }
 
     public static String getCurrentDateTimeinMillis(){
+        /*
         long millis = System.currentTimeMillis()%1000;
-        String millisStr = String.valueOf(millis);
+        String millisStr;
+        if(millis < 10){
+            millisStr = "00" + String.valueOf(millis);
+        }else if(millis < 100){
+            millisStr = "0" + String.valueOf(millis);
+        }else{
+            millisStr = String.valueOf(millis);
+        }
         String currentDateTimeinMillis = Helper.getCurrentDateTime()
-                + "." + millisStr;
+                + "." + millisStr;*/
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd HHmmss.SSS");
+        Calendar cal = Calendar.getInstance();
+        String currentDateTimeinMillis = dateFormat.format(cal.getTime());
         return currentDateTimeinMillis;
     }
 

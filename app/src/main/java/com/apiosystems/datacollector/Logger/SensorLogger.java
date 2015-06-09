@@ -112,7 +112,7 @@ public class SensorLogger extends TimerTask {
         mOriSensor.registerSensor();
         mGtySensor.registerSensor();
         mLocSensor.registerSensor();
-        mLocSensor2.registerSensor();
+       // mLocSensor2.registerSensor();
         mProxSensor.registerSensor();
         mRotSensor.registerSensor();
         mLinAccSensor.registerSensor();
@@ -235,6 +235,7 @@ public class SensorLogger extends TimerTask {
             String log = Helper.getCurrentDateTimeinMillis() + Helper.SPACE
                        + getSensorValues();
             writeDataToFile(log);
+            //Log.i(LOG_TAG, " : " + Helper.getCurrentDateTimeinMillis());
         }
     }
 }
