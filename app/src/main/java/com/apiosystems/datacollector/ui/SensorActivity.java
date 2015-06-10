@@ -140,7 +140,7 @@ public class SensorActivity extends Activity {
                     public void run() {
                         mSensorLogger.startLogging(Helper.getPhoneName());
                         timer = new Timer();
-                        timer.schedule(mSensorLogger,Helper.TIMER_DELAY,Helper.TIMER_PERIOD);
+                        timer.scheduleAtFixedRate(mSensorLogger,Helper.TIMER_DELAY,Helper.TIMER_PERIOD);
                     }
                 });
                 loggerThread.start();

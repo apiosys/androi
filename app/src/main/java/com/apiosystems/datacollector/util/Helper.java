@@ -21,7 +21,7 @@ public class Helper {
     public static final String START_TEXTING = "Enter Text Here";
     public static final String DRIVER ="NOTICE:UserIsTheDriver:YES";
     public static final String PASSENGER = "NOTICE:UserIsTheDriver:NO";
-    public static final long TIMER_PERIOD = 30;//millis
+    public static final long TIMER_PERIOD = 10;//millis
     public static final long TIMER_DELAY = 2*1000;//millis
     public static final String LOG_TAG = "DATACAPTURE";
     public static BluetoothAdapter myDevice;
