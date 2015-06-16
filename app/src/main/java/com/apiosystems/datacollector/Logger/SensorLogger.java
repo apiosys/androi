@@ -32,6 +32,7 @@ public class SensorLogger extends TimerTask {
     public static final String LOG_TAG = "SENSOR_LOGGER";
     public static final String DIRECTORY_APIO_DATA_CAPTURE = "/ApioDataCapture/";
     public static boolean mFlagOn = false;
+    public static long timeOnLogStart = 0;
 
     public static AccelerometerSensor mAccSensor = null;
     public static GyroscopeSensor mGyrSensor = null;
@@ -87,6 +88,7 @@ public class SensorLogger extends TimerTask {
 
     public void startLogging(String fileName) {
         mFlagOn = true;
+        timeOnLogStart = System.currentTimeMillis();
         mExperimentFile = getFile(fileName);
         initializeBufferedWriter();
         if(!SensorActivity.isDriver) {
@@ -232,8 +234,9 @@ public class SensorLogger extends TimerTask {
     @Override
     public void run() {
         if(mFlagOn){
-            String log = Helper.getCurrentDateTimeinMillis() + Helper.SPACE
-                       + getSensorValues();
+            String log =  Helper.getAbsoluteTime() + Helper.SPACE
+                        + Helper.getRelativeTime() + Helper.SPACE
+                        + getSensorValues();
             writeDataToFile(log);
             //Log.i(LOG_TAG, " : " + Helper.getCurrentDateTimeinMillis());
         }

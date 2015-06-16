@@ -3,6 +3,7 @@ package com.apiosystems.datacollector.util;
 import android.bluetooth.BluetoothAdapter;
 import android.util.Log;
 
+import com.apiosystems.datacollector.Logger.SensorLogger;
 import com.apiosystems.datacollector.ui.SensorActivity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,7 +22,7 @@ public class Helper {
     public static final String START_TEXTING = "Enter Text Here";
     public static final String DRIVER ="NOTICE:UserIsTheDriver:YES";
     public static final String PASSENGER = "NOTICE:UserIsTheDriver:NO";
-    public static final long TIMER_PERIOD = 10;//millis
+    public static final long TIMER_PERIOD = 30;//millis
     public static final long TIMER_DELAY = 2*1000;//millis
     public static final String LOG_TAG = "DATACAPTURE";
     public static BluetoothAdapter myDevice;
@@ -65,6 +66,20 @@ public class Helper {
         Calendar cal = Calendar.getInstance();
         String currentDateTimeinMillis = dateFormat.format(cal.getTime());
         return currentDateTimeinMillis;
+    }
+
+    public static String getAbsoluteTime(){
+        long time = System.currentTimeMillis();
+        String absoluteTime = String.valueOf(time/1000) + "." + String.valueOf(time%1000);
+        Log.i(LOG_TAG, "ABSOLUTE_TIME : " + absoluteTime);
+        return absoluteTime;
+    }
+
+    public static String getRelativeTime(){
+        long time = System.currentTimeMillis() - SensorLogger.timeOnLogStart;
+        String relativeTime = String.valueOf(time/1000) + "." + String.valueOf(time%1000);
+        Log.i(LOG_TAG, "RELATIVE_TIME : " + relativeTime);
+        return relativeTime;
     }
 
     public synchronized void setFlag(boolean flag, boolean value){

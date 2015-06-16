@@ -138,6 +138,7 @@ public class SensorActivity extends Activity {
                      */
                     @Override
                     public void run() {
+                        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
                         mSensorLogger.startLogging(Helper.getPhoneName());
                         timer = new Timer();
                         timer.scheduleAtFixedRate(mSensorLogger,Helper.TIMER_DELAY,Helper.TIMER_PERIOD);
