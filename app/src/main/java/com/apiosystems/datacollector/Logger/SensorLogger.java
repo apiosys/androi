@@ -87,7 +87,7 @@ public class SensorLogger extends TimerTask {
 
     public void startLogging(String fileName) {
         mFlagOn = true;
-        Helper.setElapsedTime(System.currentTimeMillis());
+        Helper.setTimeOnStart(System.currentTimeMillis());
         mExperimentFile = getFile(fileName);
         initializeBufferedWriter();
         if(!SensorActivity.isDriver) {
@@ -154,7 +154,7 @@ public class SensorLogger extends TimerTask {
 
     public void stopLogging(){
         mFlagOn = false;
-        Helper.setElapsedTime(0);
+        Helper.setTimeOnStart(0);
         closeWriters();
         unregisterSensors();
         Log.i(LOG_TAG,"LOGGING STOPPED");

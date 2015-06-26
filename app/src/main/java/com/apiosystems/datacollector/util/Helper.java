@@ -3,8 +3,6 @@ package com.apiosystems.datacollector.util;
 import android.bluetooth.BluetoothAdapter;
 import android.util.Log;
 
-import com.apiosystems.datacollector.Logger.SensorLogger;
-import com.apiosystems.datacollector.ui.SensorActivity;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +23,8 @@ public class Helper {
     public static final long TIMER_PERIOD = 30;//millis
     public static final long TIMER_DELAY = 2*1000;//millis
     public static final String LOG_TAG = "DATACAPTURE";
-    public static long mElapsedTime;
+    public static long mAbsTime;
+    public static long timeOnStart;
     public static BluetoothAdapter myDevice;
 
     public static String getCurrentDateTime(){
@@ -84,14 +83,11 @@ public class Helper {
         return currentDateTimeForFile;
     }
 
-    /*
-       This method returns the absolute time
-     */
-    public static String getAbsoluteTime(){
-        long time = System.currentTimeMillis();
+    public static String getTimeInSalLogFormat(long time){
+        long mTime = time;
         String millistr;
-        int seconds = (int) time/1000;
-        int milli  = (int) time%1000;
+        long seconds =  mTime/1000;
+        long milli  =  mTime%1000;
         if( milli < 10 ){
             millistr = "00" + String.valueOf(milli);
         }else if( milli < 100 ){
@@ -99,7 +95,15 @@ public class Helper {
         }else{
             millistr = String.valueOf(milli);
         }
-        String absoluteTime = String.valueOf(seconds) + "." + millistr;
+        String formattedTime = String.valueOf(seconds) + "." + millistr;
+        return formattedTime;
+    }
+    /*
+       This method returns the absolute time
+     */
+    public static String getAbsoluteTime(){
+        mAbsTime = System.currentTimeMillis();
+        String absoluteTime = getTimeInSalLogFormat(mAbsTime);
         Log.i(LOG_TAG, "ABSOLUTE_TIME : " + absoluteTime);
         return absoluteTime;
     }
@@ -108,15 +112,22 @@ public class Helper {
        and when we end an experiment.
      */
 
-    public static void setElapsedTime(long elapsedTime){
-        mElapsedTime = elapsedTime;
+    public static void setTimeOnStart(long elapsedTime){
+        timeOnStart = elapsedTime;
     }
 
+    /*
+       This method computes the ElapsedTime since the beginning of the experiment.
+     */
     public static String getElapsedTime(){
-        String elapsedTimeString = String.valueOf(System.currentTimeMillis() - mElapsedTime);
+        String elapsedTimeString = getTimeInSalLogFormat(mAbsTime - timeOnStart);
         return elapsedTimeString;
     }
 
+    /*
+       This method retrieves the phone Name, if any assigned by the user.
+       The phone name is retrieved from the BluetoothAdapter.
+     */
     public static String getPhoneName(){
         myDevice = BluetoothAdapter.getDefaultAdapter();
         String deviceName = myDevice.getName();
