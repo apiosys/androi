@@ -25,6 +25,7 @@ public class Helper {
     public static final long TIMER_PERIOD = 30;//millis
     public static final long TIMER_DELAY = 2*1000;//millis
     public static final String LOG_TAG = "DATACAPTURE";
+    public static long mElapsedTime;
     public static BluetoothAdapter myDevice;
 
     public static String getCurrentDateTime(){
@@ -68,20 +69,6 @@ public class Helper {
         return currentDateTimeinMillis;
     }
 
-    public static String getAbsoluteTime(){
-        long time = System.currentTimeMillis();
-        String absoluteTime = String.valueOf(time/1000) + "." + String.valueOf(time%1000);
-        Log.i(LOG_TAG, "ABSOLUTE_TIME : " + absoluteTime);
-        return absoluteTime;
-    }
-
-    public static String getRelativeTime(){
-        long time = System.currentTimeMillis() - SensorLogger.timeOnLogStart;
-        String relativeTime = String.valueOf(time/1000) + "." + String.valueOf(time%1000);
-        Log.i(LOG_TAG, "RELATIVE_TIME : " + relativeTime);
-        return relativeTime;
-    }
-
     public synchronized void setFlag(boolean flag, boolean value){
         flag=value;
     }
@@ -95,6 +82,39 @@ public class Helper {
         Calendar cal = Calendar.getInstance();
         String currentDateTimeForFile = dateFormat.format(cal.getTime());
         return currentDateTimeForFile;
+    }
+
+    /*
+       This method returns the absolute time
+     */
+    public static String getAbsoluteTime(){
+        long time = System.currentTimeMillis();
+        String millistr;
+        int seconds = (int) time/1000;
+        int milli  = (int) time%1000;
+        if( milli < 10 ){
+            millistr = "00" + String.valueOf(milli);
+        }else if( milli < 100 ){
+            millistr = "0" + String.valueOf(milli);
+        }else{
+            millistr = String.valueOf(milli);
+        }
+        String absoluteTime = String.valueOf(seconds) + "." + millistr;
+        Log.i(LOG_TAG, "ABSOLUTE_TIME : " + absoluteTime);
+        return absoluteTime;
+    }
+    /*
+       This method sets the ElapsedTime variable. The values is set when we capture a new experiment
+       and when we end an experiment.
+     */
+
+    public static void setElapsedTime(long elapsedTime){
+        mElapsedTime = elapsedTime;
+    }
+
+    public static String getElapsedTime(){
+        String elapsedTimeString = String.valueOf(System.currentTimeMillis() - mElapsedTime);
+        return elapsedTimeString;
     }
 
     public static String getPhoneName(){
