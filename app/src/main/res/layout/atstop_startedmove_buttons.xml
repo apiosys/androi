@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <Button
+        android:id="@+id/atstop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/AtStop"
+        android:background="@color/BLUE"
+        android:textColor="@color/WHITE"
+        android:layout_margin="@dimen/margin"
+        android:layout_gravity="left"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/startedmove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/StartedMove"
+        android:background="@color/BLUE"
+        android:textColor="@color/WHITE"
+        android:layout_margin="@dimen/margin"
+        android:gravity="center"
+        android:layout_gravity="right"/>
+
+</FrameLayout>

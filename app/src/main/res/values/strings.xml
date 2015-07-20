@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">DataCapture</string>
+    <string name="StartTexting">Start Your Texting</string>
+    <string name="AtStop">At Stop</string>
+    <string name="StartedMove">Started Move</string>
+    <string name="PhoneCall">Start Phone Call</string>
+    <string name="GeneralHandling">Start General Handling</string>
+    <string name="VersionLabel">DataCapture - Ver: 1.2.7</string>
+    <string name="VersionNumber">1.2</string>
+    <string name="StartCapture">Start Capture</string>
+    <string name="StopCapture">Stop Capture</string>
+    <string name="ButtonColor"></string>
+    <string name="UserIsDriver">User is : DRIVER </string>
+    <string name="UserIsPassenger">User is : PASSENGER </string>
+</resources>
