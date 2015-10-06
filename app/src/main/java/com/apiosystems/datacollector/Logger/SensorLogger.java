@@ -51,7 +51,7 @@ public class SensorLogger extends TimerTask {
     public static Context mContext;
 
     public FileWriter mFileWriter = null;
-    public BufferedWriter mBufferedWriter = null;
+    public static BufferedWriter mBufferedWriter = null;
     public File mExperimentFile = null;
 
     String gyrValuesStr = null;
@@ -102,7 +102,7 @@ public class SensorLogger extends TimerTask {
         registerSensors();
     }
 
-    public void writeDataToFile(String content){
+    public static void writeDataToFile(String content){
         try{
             mBufferedWriter.append(content);
         }catch(IOException ioe){
@@ -117,7 +117,7 @@ public class SensorLogger extends TimerTask {
         mOriSensor.registerSensor();
         mGtySensor.registerSensor();
         mLocSensor.registerSensor();
-       // mLocSensor2.registerSensor();
+        //mLocSensor2.registerSensor();
         mProxSensor.registerSensor();
         mRotSensor.registerSensor();
         mLinAccSensor.registerSensor();
@@ -143,18 +143,7 @@ public class SensorLogger extends TimerTask {
         activityrecognition_confidence_activity = Helper.DASH + Helper.SPACE;
         pressureValuesStr = mPressureSensor.getValuesStr();
 
-        String mSensorValues =    magValuesStr//1,2,3
-                                + accValuesStr//4,5,6
-                                + locValuesStr//7,8,9
-                                + gyrValuesStr//10,11,12
-                                + rotValuesStr//13,14,15
-                                + rmagValuesStr//16,17,18
-                                + locmetaValuesStr//19,20,21,22,23
-                                + rawaccValuesStr//24,25,26
-                                + actrecogValuesStr
-                                + proxValuesStr//28
-                                + deviceorientation//29
-                                + pressureValuesStr
+        String mSensorValues =    pressureValuesStr
                                 + Helper.NEW_LINE ;
         return mSensorValues;
     }
@@ -241,7 +230,7 @@ public class SensorLogger extends TimerTask {
      */
     @Override
     public void run() {
-        if(mFlagOn){
+        if(mFlagOn && false){
             String log =  Helper.getAbsoluteTime() + Helper.SPACE
                         + Helper.getElapsedTime() + Helper.SPACE
                         + getSensorValues();
