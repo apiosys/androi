@@ -8,8 +8,8 @@ android {
         applicationId "datacollector.apiosystems.com.datacollector"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 7
-        versionName "1.2.7"
+        versionCode 8
+        versionName "1.2.8"
     }
 
     applicationVariants.all { variant ->

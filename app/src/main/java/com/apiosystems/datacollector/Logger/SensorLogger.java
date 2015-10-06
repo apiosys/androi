@@ -14,6 +14,7 @@ import com.apiosystems.datacollector.SensorClasses.LocationSensor;
 import com.apiosystems.datacollector.SensorClasses.LocationSensor2;
 import com.apiosystems.datacollector.SensorClasses.MagnetometerSensor;
 import com.apiosystems.datacollector.SensorClasses.OrientationSensorKitkat;
+import com.apiosystems.datacollector.SensorClasses.PressureSensor;
 import com.apiosystems.datacollector.SensorClasses.ProximitySensor;
 import com.apiosystems.datacollector.SensorClasses.RawMagnetometerSensor;
 import com.apiosystems.datacollector.SensorClasses.RotationSensor;
@@ -44,6 +45,7 @@ public class SensorLogger extends TimerTask {
     public static LocationSensor2 mLocSensor2 = null;
     public static ProximitySensor mProxSensor = null;
     public static DeviceOrientation mDeviceOrientation = null;
+    public static PressureSensor mPressureSensor = null;
     public static ApioActivityRecognitionService mActRecognition = null;
     public static RotationSensor mRotSensor = null;//Used for Attitude
     public static Context mContext;
@@ -67,6 +69,7 @@ public class SensorLogger extends TimerTask {
     String deviceorientation = null;
     String rotValuesStr = null ;//attitude
     String locmetaValuesStr = null;
+    String pressureValuesStr = null;
 
     public SensorLogger(Context context, Activity activity){
         mContext = context;
@@ -83,6 +86,7 @@ public class SensorLogger extends TimerTask {
         this.mDeviceOrientation = new DeviceOrientation();
         this.mLinAccSensor = new LinearAccelerometerSensor(mContext);
         this.mRawMagSensor = new RawMagnetometerSensor(mContext);
+        this.mPressureSensor = new PressureSensor(mContext);
     }
 
     public void startLogging(String fileName) {
@@ -118,6 +122,7 @@ public class SensorLogger extends TimerTask {
         mRotSensor.registerSensor();
         mLinAccSensor.registerSensor();
         mRawMagSensor.registerSensor();
+        mPressureSensor.registerSensor();
     }
 
     public String getSensorValues(){
@@ -136,6 +141,7 @@ public class SensorLogger extends TimerTask {
         deviceorientation = DeviceOrientation.getValuesStr();
         rawaccValuesStr = mAccSensor.getValuesStr();
         activityrecognition_confidence_activity = Helper.DASH + Helper.SPACE;
+        pressureValuesStr = mPressureSensor.getValuesStr();
 
         String mSensorValues =    magValuesStr//1,2,3
                                 + accValuesStr//4,5,6
@@ -148,6 +154,7 @@ public class SensorLogger extends TimerTask {
                                 + actrecogValuesStr
                                 + proxValuesStr//28
                                 + deviceorientation//29
+                                + pressureValuesStr
                                 + Helper.NEW_LINE ;
         return mSensorValues;
     }
@@ -181,6 +188,7 @@ public class SensorLogger extends TimerTask {
         mProxSensor.unregisterSensor();
         mLinAccSensor.unregisterSensor();
         mRawMagSensor.unregisterSensor();
+        mPressureSensor.unregisterSensor();
     }
 
     public void initializeBufferedWriter(){
