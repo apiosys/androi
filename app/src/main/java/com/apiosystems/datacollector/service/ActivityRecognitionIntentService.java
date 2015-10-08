@@ -12,6 +12,16 @@ import com.google.android.gms.location.DetectedActivity;
  */
 public class ActivityRecognitionIntentService extends IntentService {
 
+    enum SAL_ENUMS
+    {
+        DEVICE_DETECTION_UNKNOWN,//Android unknown - iOS unknown
+        DEVICE_DETECTION_CYCLING,//Android onBicycle iOS cycling
+        DEVICE_DETECTION_WALKING,//Andriod onfoot or walking - iOS walking
+        DEVICE_DETECTION_RUNNING,//Andriod running - iOS running
+        DEVICE_DETECTION_CARMODE,//Andriod inVehicle - iOS automotive
+        DEVICE_DETECTION_NO_MOVEMENT,//Andriod STILL - iOS stationary
+        DEVICE_DETECTION_CAR_AND_STATIONARY //for debug purpose
+    };  //SALDeviceHWDetections
     private static String LOG_TAG = ActivityRecognitionIntentService.class.getSimpleName();
     public static String ACTIVITY_NAME_KEY = "ACTIVITY_NAME_KEY";
     public static String ACTIVITY_CONFIDENCE_KEY = "ACTIVITY_CONFIDENCE_KEY";
@@ -34,14 +44,14 @@ public class ActivityRecognitionIntentService extends IntentService {
              * Get the probability that this activity is the
              * the user's actual activity
              */
-            int confidence = mostProbableActivity.getConfidence();
+            int confidence = getConfidenceRange(mostProbableActivity.getConfidence());
 
             String confidencestr = String.valueOf(confidence);//getConfidenceRange(confidence);
             /*
              * Get an integer describing the type of activity
              */
-            int activityType = mostProbableActivity.getType();
-            final String activityName = String.valueOf(activityType);//getNameFromType(activityType);
+            int activityType = getSALEnumFromType(mostProbableActivity.getType());
+            final String activityName = String.valueOf(activityType); //getNameFromType(activityType);
 
             /*
              * At this point, you have retrieved all the information
@@ -50,7 +60,7 @@ public class ActivityRecognitionIntentService extends IntentService {
              * send it to an Activity or Service in a broadcast
              * Intent.
              */
-            final String log = "ActivityRecognitionResult has result: activityName: " + activityName + " confidence: " + confidencestr;
+//            final String log = "ActivityRecognitionResult has result: activityName: " + activityName + " confidence: " + confidencestr;
             //Log.d(LOG_TAG, log);
             broadcastNewActivityRecognized(activityName, confidencestr);
         } else {
@@ -63,43 +73,44 @@ public class ActivityRecognitionIntentService extends IntentService {
         }
     }
 
-    private String getNameFromType(int activityType) {
+    private int getSALEnumFromType(int activityType) {
         switch(activityType) {
             case DetectedActivity.IN_VEHICLE:
-                String inVehicle = "InVehicle";
+                int inVehicle = SAL_ENUMS.DEVICE_DETECTION_CARMODE.ordinal();
                 return inVehicle;
             case DetectedActivity.ON_BICYCLE:
-                return "OnBicycle";
+                int inBicycle = SAL_ENUMS.DEVICE_DETECTION_CYCLING.ordinal();
+                return inBicycle;
             case DetectedActivity.ON_FOOT:
-                String onFoot = "OnFoot";
+                int onFoot = SAL_ENUMS.DEVICE_DETECTION_WALKING.ordinal();
                 return onFoot;
             case DetectedActivity.RUNNING:
-                String running = "Running";
+                int running = SAL_ENUMS.DEVICE_DETECTION_RUNNING.ordinal();
                 return running;
             case DetectedActivity.STILL:
-                return "Stationary";
+                int still = SAL_ENUMS.DEVICE_DETECTION_NO_MOVEMENT.ordinal();
+                return still;
             case DetectedActivity.UNKNOWN:
-                return "Unknown";
-            case DetectedActivity.TILTING:
-                return "Tilting";
+                int unknown = SAL_ENUMS.DEVICE_DETECTION_UNKNOWN.ordinal();
+                return unknown;
             case DetectedActivity.WALKING:
-                String walking = "Walking";
+                int walking = SAL_ENUMS.DEVICE_DETECTION_WALKING.ordinal();
                 return walking;
         }
-        return "Unknown";
+        return SAL_ENUMS.DEVICE_DETECTION_UNKNOWN.ordinal();
     }
 
-    private String getConfidenceRange(int i){
-        String range;
+    private int getConfidenceRange(int i){
+        int range;
         i = Math.abs(i);
         if(i <= 50){
-            range = "LowConfidence";
-        }else if(i <= 75){
-            range = "MedConfidence";
+            range = 0;
+        }else if(i <= 60){
+            range = 1;
         }else if(i <= 100){
-            range = "HighConfidence";
+            range = 2;
         }else{
-            range = "-";
+            range = 0;
         }
          return range;
     }
