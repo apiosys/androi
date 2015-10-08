@@ -18,8 +18,8 @@ import com.google.android.gms.location.ActivityRecognition;
 public class ApioActivityRecognitionService extends Service {
 
     public static final String LOG_TAG = ApioActivityRecognitionService.class.getSimpleName();
-    public static String activityName = "Unknown";
-    public static String confidencestr = "LowConfidence";
+    public static String activityName = "2";//Unknown
+    public static String confidencestr = "0";//LowConfidence
 
     private static final int ACTIVITY_RECOGNITION_REQUEST_INTERVAL = 1000;
     private GoogleApiClient mGoogleApiClient = null;
@@ -56,11 +56,11 @@ public class ApioActivityRecognitionService extends Service {
     }
 
     public static String getActivityName() {
-        return "Event" + activityName;
+        return activityName + Helper.SPACE;
     }
 
     public static String getConfidencestr() {
-        return confidencestr;
+        return confidencestr + Helper.SPACE;
     }
 
     public String getValuesStr(){

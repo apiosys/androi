@@ -16,8 +16,10 @@ public class PressureSensor extends SensorBaseClass implements SensorEventListen
     private static String LOG_TAG = PressureSensor.class.getSimpleName();
     public Sensor mSensor;
     public Context mContext;
-    public static float values[] = {-1,-1,-1};
+    public static float values[] = {-1, -1, -1};
     public SensorUpdateTaskHandler mTaskHandler;
+    private static float altitude;
+    private static String altitudeString = "0.0" + Helper.SPACE;
 
     public PressureSensor(Context context) {
         super(context);
@@ -51,6 +53,18 @@ public class PressureSensor extends SensorBaseClass implements SensorEventListen
             values[1] = sensorEvent.values[1];
             values[2] = sensorEvent.values[2];
         }
+    }
+
+    public float getAltitude(){
+        altitude = SensorManager.getAltitude(SensorManager.PRESSURE_STANDARD_ATMOSPHERE, values[0]);
+        return altitude;
+    }
+
+    public String getAltitudeString(){
+        if(isSensorAvailable(mSensorType, mContext)){
+            altitudeString = String.valueOf(getAltitude()) + Helper.SPACE;
+        }
+        return altitudeString;
     }
 
     @Override

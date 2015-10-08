@@ -103,9 +103,9 @@ public class Helper {
      */
     public static String getAbsoluteTime(){
         mAbsTime = System.currentTimeMillis();
-        String absoluteTime = getTimeInSalLogFormat(mAbsTime);
-        Log.i(LOG_TAG, "ABSOLUTE_TIME : " + absoluteTime);
-        return absoluteTime;
+//        String absoluteTime = getTimeInSalLogFormat(mAbsTime);
+//        Log.i(LOG_TAG, "ABSOLUTE_TIME : " + absoluteTime);
+        return String.valueOf(mAbsTime);
     }
     /*
        This method sets the ElapsedTime variable. The values is set when we capture a new experiment

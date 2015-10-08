@@ -56,9 +56,9 @@ public class ProximitySensor extends SensorBaseClass implements SensorEventListe
         String valuesstr;
         if (isSensorAvailable(mSensorType, mContext)) {
             if (distance > 0.0) {
-                valuesstr = "Proximity:Distant" + Helper.SPACE;
+                valuesstr = "1" + Helper.SPACE; //Distant
             } else{
-                valuesstr = "Proximity:Close" + Helper.SPACE;
+                valuesstr = "0" + Helper.SPACE; //Close
             }
         }else {
             valuesstr = "- ";

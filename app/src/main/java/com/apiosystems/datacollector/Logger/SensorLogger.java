@@ -2,6 +2,7 @@ package com.apiosystems.datacollector.Logger;
 
 import android.app.Activity;
 import android.content.Context;
+import android.hardware.SensorManager;
 import android.os.Environment;
 import android.util.Log;
 
@@ -70,6 +71,10 @@ public class SensorLogger extends TimerTask {
     String rotValuesStr = null ;//attitude
     String locmetaValuesStr = null;
     String pressureValuesStr = null;
+    private String actEvent;
+    private String actConfidence;
+    private String speedThreshold;
+    private String altitude;
 
     public SensorLogger(Context context, Activity activity){
         mContext = context;
@@ -131,7 +136,7 @@ public class SensorLogger extends TimerTask {
         oriValuesStr = mOriSensor.getValuesStr();
         accValuesStr = mLinAccSensor.getValuesStr();
         magValuesStr = mMagSensor.getValuesStr();
-        locValuesStr = mLocSensor.getValuesStr();
+        locValuesStr = mLocSensor.getLatLongAlt();
         proxValuesStr = mProxSensor.getDistanceStr();
         actrecogValuesStr = mActRecognition.getValuesStr();
         laccValuesStr = mLinAccSensor.getValuesStr();
@@ -140,7 +145,10 @@ public class SensorLogger extends TimerTask {
         locmetaValuesStr = mLocSensor.getLocMeta();
         deviceorientation = DeviceOrientation.getValuesStr();
         rawaccValuesStr = mAccSensor.getValuesStr();
-        activityrecognition_confidence_activity = Helper.DASH + Helper.SPACE;
+        actEvent = mActRecognition.getActivityName();
+        actConfidence = mActRecognition.getConfidencestr();
+        speedThreshold = "0.0 " ;
+        altitude = mPressureSensor.getAltitudeString();
         pressureValuesStr = mPressureSensor.getValuesStr();
 
         String mSensorValues =    magValuesStr//1,2,3
@@ -151,10 +159,13 @@ public class SensorLogger extends TimerTask {
                                 + rmagValuesStr//16,17,18
                                 + locmetaValuesStr//19,20,21,22,23
                                 + rawaccValuesStr//24,25,26
-                                + actrecogValuesStr
-                                + proxValuesStr//28
-                                + deviceorientation//29
-                                + pressureValuesStr
+                                + actEvent //27
+                                + actConfidence //28
+                                + speedThreshold // 29
+                                + altitude //30
+                                + pressureValuesStr // 31
+                                + proxValuesStr //32
+                                + deviceorientation // 33
                                 + Helper.NEW_LINE ;
         return mSensorValues;
     }
@@ -242,8 +253,9 @@ public class SensorLogger extends TimerTask {
     @Override
     public void run() {
         if(mFlagOn){
-            String log =  Helper.getAbsoluteTime() + Helper.SPACE
-                        + Helper.getElapsedTime() + Helper.SPACE
+            String log =  String.valueOf(0) + Helper.SPACE
+                        + String.valueOf(0) + Helper.SPACE
+                        + Helper.getAbsoluteTime() + Helper.SPACE
                         + getSensorValues();
             writeDataToFile(log);
             //Log.i(LOG_TAG, " : " + Helper.getCurrentDateTimeinMillis());

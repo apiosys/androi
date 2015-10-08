@@ -36,12 +36,12 @@ public class ActivityRecognitionIntentService extends IntentService {
              */
             int confidence = mostProbableActivity.getConfidence();
 
-            String confidencestr = getConfidenceRange(confidence);
+            String confidencestr = String.valueOf(confidence);//getConfidenceRange(confidence);
             /*
              * Get an integer describing the type of activity
              */
             int activityType = mostProbableActivity.getType();
-            final String activityName = getNameFromType(activityType);
+            final String activityName = String.valueOf(activityType);//getNameFromType(activityType);
 
             /*
              * At this point, you have retrieved all the information

@@ -10,9 +10,9 @@ import com.apiosystems.datacollector.util.Helper;
  * Created by Akshayraj on 5/15/15.
  */
 public class DeviceOrientation {
-    private static final String LANDSCAPE = "Orientation:Landscape";
-    private static final String PORTRAIT = "Orientation:Portrait";
-    private static final String UNKNOWN = "Orientation:Unknown";
+    private static final String LANDSCAPE = "1";//"Orientation:Landscape";
+    private static final String PORTRAIT = "0";//"Orientation:Portrait";
+    private static final String UNKNOWN = "2";//"Orientation:Unknown";
     private static final String LOG_TAG = DeviceOrientation.class.getSimpleName();
     public  static String mDeviceOrientation = PORTRAIT;
     public static Configuration config = null;
