@@ -12,9 +12,7 @@ import com.apiosystems.datacollector.util.Helper;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.ActivityRecognition;
-/**
- * Created by Akshayraj on 5/13/15.
- */
+
 public class ApioActivityRecognitionService extends Service {
 
     public static final String LOG_TAG = ApioActivityRecognitionService.class.getSimpleName();
@@ -29,7 +27,7 @@ public class ApioActivityRecognitionService extends Service {
         super();
     }
 
-    public ApioActivityRecognitionService(Context context){
+    public ApioActivityRecognitionService(Context context) {
         super();
         //mContext = context;
         //Log.i(LOG_TAG, "ApioActivityRecognitionService(Context context)");
@@ -47,9 +45,9 @@ public class ApioActivityRecognitionService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Log.i(LOG_TAG, "Service onStartCommand");
         if (intent != null) {
-            if (intent.hasExtra(ActivityRecognitionIntentService.ACTIVITY_NAME_KEY)) {
-                activityName = intent.getStringExtra(ActivityRecognitionIntentService.ACTIVITY_NAME_KEY);
-                confidencestr = intent.getStringExtra(ActivityRecognitionIntentService.ACTIVITY_CONFIDENCE_KEY);
+            if (intent.hasExtra(ActivityRecognitionService.ACTIVITY_NAME_KEY)) {
+                activityName = intent.getStringExtra(ActivityRecognitionService.ACTIVITY_NAME_KEY);
+                confidencestr = intent.getStringExtra(ActivityRecognitionService.ACTIVITY_CONFIDENCE_KEY);
             }
         }
         return super.onStartCommand(intent, flags, startId);
@@ -63,11 +61,12 @@ public class ApioActivityRecognitionService extends Service {
         return confidencestr + Helper.SPACE;
     }
 
-    public String getValuesStr(){
+    public String getValuesStr() {
         String valuesstr = getConfidencestr() + ":" + getActivityName() + Helper.SPACE;
         //Log.i(LOG_TAG,valuesstr);
         return valuesstr;
     }
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -83,7 +82,7 @@ public class ApioActivityRecognitionService extends Service {
                 * Create the PendingIntent that Location Services uses
                 * to send activity recognition updates back to this app.
                 */
-                Intent intent = new Intent(mContext, ActivityRecognitionIntentService.class);
+                Intent intent = new Intent(mContext, ActivityRecognitionService.class);
                 PendingIntent activityRecognitionPendingIntent =
                         PendingIntent.getService(mContext, 0, intent,
                                 PendingIntent.FLAG_UPDATE_CURRENT);
@@ -101,7 +100,7 @@ public class ApioActivityRecognitionService extends Service {
 
             @Override
             public void onConnectionFailed(ConnectionResult connectionResult) {
-                Log.d(LOG_TAG, "onConnectionFailed(): connectionResult: " + ((connectionResult != null) ? connectionResult.getErrorCode(): "null result"));
+                Log.d(LOG_TAG, "onConnectionFailed(): connectionResult: " + ((connectionResult != null) ? connectionResult.getErrorCode() : "null result"));
             }
         };
 

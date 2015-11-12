@@ -18,7 +18,7 @@ import com.google.android.gms.location.LocationServices;
 /**
  * Created by Akshayraj on 5/5/15.
  */
-public class LocationSensor implements
+public class LocationPlayServices implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -34,11 +34,11 @@ public class LocationSensor implements
     public static double alt = 0.0f;
 
     public static GoogleApiClient mGoogleApiClient = null;
-    public static final String LOG_TAG = LocationSensor.class.getSimpleName();
+    public static final String LOG_TAG = LocationPlayServices.class.getSimpleName();
     public static Context mContext;
     public static Activity mActivity;
 
-    public LocationSensor(Context context, Activity activity){
+    public LocationPlayServices(Context context, Activity activity){
         this.mContext = context;
         this.mActivity = activity;
         mGoogleApiClient = new GoogleApiClient.Builder(mContext)
@@ -61,7 +61,7 @@ public class LocationSensor implements
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(1000)        // 10 seconds, in milliseconds
-                .setFastestInterval(LocationSensor2.TIME_INTERVAL_BETWEEN_LOCATION_UPDATES); // 1 second, in milliseconds
+                .setFastestInterval(LocationAndroid.TIME_INTERVAL_BETWEEN_LOCATION_UPDATES); // 1 second, in milliseconds
     }
 
     public void unregisterSensor(){
@@ -126,7 +126,7 @@ public class LocationSensor implements
                     + lon + Helper.SPACE
                     + alt + Helper.SPACE ;
         }else{
-            valuesstr = "- - - ";
+            valuesstr = "0 0 0 ";
         }
         //Log.i(Helper.LOG_TAG, "Lat, Long");
         return valuesstr;
@@ -141,7 +141,7 @@ public class LocationSensor implements
                     + String.valueOf(speed) + Helper.SPACE
                     + String.valueOf(0.0) + Helper.SPACE;
         } else {
-            locmeta = "- - - - - ";
+            locmeta = "0 0 0 0 0 ";
         }
         //Log.i(Helper.LOG_TAG, "Loc MetaData");
         return locmeta;

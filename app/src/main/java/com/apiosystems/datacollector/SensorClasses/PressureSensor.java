@@ -84,7 +84,7 @@ public class PressureSensor extends SensorBaseClass implements SensorEventListen
 //                    + String.valueOf(values[1]) + Helper.SPACE
 //                    + String.valueOf(values[2]) + Helper.SPACE ;
         }else{
-            valuesstr = "- - - ";
+            valuesstr = "0 ";
         }
         return valuesstr;
     }

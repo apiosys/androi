@@ -10,7 +10,7 @@ import com.google.android.gms.location.DetectedActivity;
 /**
  * Created by jaredsheehan on 12/15/14.
  */
-public class ActivityRecognitionIntentService extends IntentService {
+public class ActivityRecognitionService extends IntentService {
 
     enum SAL_ENUMS
     {
@@ -22,12 +22,12 @@ public class ActivityRecognitionIntentService extends IntentService {
         DEVICE_DETECTION_NO_MOVEMENT,//Andriod STILL - iOS stationary
         DEVICE_DETECTION_CAR_AND_STATIONARY //for debug purpose
     };  //SALDeviceHWDetections
-    private static String LOG_TAG = ActivityRecognitionIntentService.class.getSimpleName();
+    private static String LOG_TAG = ActivityRecognitionService.class.getSimpleName();
     public static String ACTIVITY_NAME_KEY = "ACTIVITY_NAME_KEY";
     public static String ACTIVITY_CONFIDENCE_KEY = "ACTIVITY_CONFIDENCE_KEY";
 
-    public ActivityRecognitionIntentService(){
-        super(ActivityRecognitionIntentService.class.getSimpleName());
+    public ActivityRecognitionService(){
+        super(ActivityRecognitionService.class.getSimpleName());
     }
 
     @Override
@@ -112,7 +112,7 @@ public class ActivityRecognitionIntentService extends IntentService {
         }else{
             range = 0;
         }
-         return range;
+        return range;
     }
 
     private void broadcastNewActivityRecognized(String activityName, String confidence){

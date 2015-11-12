@@ -1,8 +1,7 @@
 package com.apiosystems.datacollector.Logger;
 
-import android.app.Activity;
 import android.content.Context;
-import android.hardware.SensorManager;
+import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
@@ -11,8 +10,8 @@ import com.apiosystems.datacollector.SensorClasses.DeviceOrientation;
 import com.apiosystems.datacollector.SensorClasses.GravitySensor;
 import com.apiosystems.datacollector.SensorClasses.GyroscopeSensor;
 import com.apiosystems.datacollector.SensorClasses.LinearAccelerometerSensor;
-import com.apiosystems.datacollector.SensorClasses.LocationSensor;
-import com.apiosystems.datacollector.SensorClasses.LocationSensor2;
+import com.apiosystems.datacollector.SensorClasses.LocationPlayServices;
+import com.apiosystems.datacollector.SensorClasses.LocationAndroid;
 import com.apiosystems.datacollector.SensorClasses.MagnetometerSensor;
 import com.apiosystems.datacollector.SensorClasses.OrientationSensorKitkat;
 import com.apiosystems.datacollector.SensorClasses.PressureSensor;
@@ -42,8 +41,8 @@ public class SensorLogger extends TimerTask {
     public static LinearAccelerometerSensor mLinAccSensor = null;
     public static RawMagnetometerSensor mRawMagSensor = null;
     public static OrientationSensorKitkat mOriSensor = null;
-    public static LocationSensor mLocSensor = null;
-    public static LocationSensor2 mLocSensor2 = null;
+    public static LocationPlayServices mLocSensorAlternate = null;
+    public static LocationAndroid mLocSensor = null;
     public static ProximitySensor mProxSensor = null;
     public static DeviceOrientation mDeviceOrientation = null;
     public static PressureSensor mPressureSensor = null;
@@ -76,15 +75,15 @@ public class SensorLogger extends TimerTask {
     private String speedThreshold;
     private String altitude;
 
-    public SensorLogger(Context context, Activity activity){
+    public SensorLogger(Context context, SensorActivity sensorActivity){
         mContext = context;
         this.mAccSensor = new AccelerometerSensor(mContext);
         this.mGyrSensor = new GyroscopeSensor(mContext);
         this.mMagSensor = new MagnetometerSensor(mContext);
         this.mOriSensor = new OrientationSensorKitkat(mContext);
         this.mGtySensor = new GravitySensor(mContext);
-        this.mLocSensor = new LocationSensor(mContext, activity);
-        this.mLocSensor2 = new LocationSensor2(mContext, activity);
+//        this.mLocSensorAlternate = new LocationPlayServices(mContext, activity);
+        this.mLocSensor = new LocationAndroid(mContext);
         this.mRotSensor = new RotationSensor(mContext);
         this.mProxSensor = new ProximitySensor(mContext);
         this.mActRecognition = new ApioActivityRecognitionService(mContext);//Activity
@@ -122,7 +121,7 @@ public class SensorLogger extends TimerTask {
         mOriSensor.registerSensor();
         mGtySensor.registerSensor();
         mLocSensor.registerSensor();
-       // mLocSensor2.registerSensor();
+       // mLocSensorAlternate.registerSensor();
         mProxSensor.registerSensor();
         mRotSensor.registerSensor();
         mLinAccSensor.registerSensor();
@@ -194,7 +193,7 @@ public class SensorLogger extends TimerTask {
         mOriSensor.unregisterSensor();
         mGtySensor.unregisterSensor();
         mLocSensor.unregisterSensor();
-        mLocSensor2.unregisterSensor();
+        mLocSensorAlternate.unregisterSensor();
         mRotSensor.unregisterSensor();
         mProxSensor.unregisterSensor();
         mLinAccSensor.unregisterSensor();
@@ -259,6 +258,7 @@ public class SensorLogger extends TimerTask {
                         + getSensorValues();
             writeDataToFile(log);
             //Log.i(LOG_TAG, " : " + Helper.getCurrentDateTimeinMillis());
+            Intent activityRecognition = new Intent(mContext, ApioActivityRecognitionService.class);
         }
     }
 }

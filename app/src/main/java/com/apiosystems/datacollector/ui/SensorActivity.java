@@ -9,13 +9,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
+
 import com.apiosystems.datacollector.Logger.SensorLogger;
 import com.apiosystems.datacollector.SensorClasses.DeviceOrientation;
 import com.apiosystems.datacollector.util.Helper;
 import com.apiosystems.datacollector.util.TextViewBackEvent;
 
 import java.util.Timer;
+
 import datacollector.apiosystems.com.datacollector.R;
 
 public class SensorActivity extends Activity {
@@ -26,7 +27,7 @@ public class SensorActivity extends Activity {
     private static Button mStartButton;
     private static Button mEndButton;
     private static Switch mSwitchButton;
-    public static Timer timer ;
+    public static Timer mTimer;
     public static final String LOG_TAG = "SENSOR_ACTIVITY";
     private static int BLUE ;
     public static int LTBLUE;
@@ -140,8 +141,8 @@ public class SensorActivity extends Activity {
                     public void run() {
                         Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
                         mSensorLogger.startLogging(Helper.getPhoneName());
-                        timer = new Timer();
-                        timer.scheduleAtFixedRate(mSensorLogger,Helper.TIMER_DELAY,Helper.TIMER_PERIOD);
+                        mTimer = new Timer();
+                        mTimer.scheduleAtFixedRate(mSensorLogger, Helper.TIMER_DELAY, Helper.TIMER_PERIOD);
                     }
                 });
                 loggerThread.start();
@@ -155,9 +156,6 @@ public class SensorActivity extends Activity {
                 stopGeneralHandlingSnippet();
                 disableView();
                 mStartLog = false;
-                mSensorLogger.stopLogging();
-                timer.cancel();
-                timer.purge();
             }
         });
     }
@@ -263,7 +261,7 @@ public class SensorActivity extends Activity {
         /*if(mStartLog){
             mStartLog = false;
             mSensorLogger.stopLogging();
-            timer.cancel();
+            mTimer.cancel();
         }*/
         super.onDestroy();
     }

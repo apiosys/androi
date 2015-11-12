@@ -61,7 +61,7 @@ public class ProximitySensor extends SensorBaseClass implements SensorEventListe
                 valuesstr = "0" + Helper.SPACE; //Close
             }
         }else {
-            valuesstr = "- ";
+            valuesstr = "0 ";
         }
         //Log.i(LOG_TAG,valuesstr);
             return valuesstr;

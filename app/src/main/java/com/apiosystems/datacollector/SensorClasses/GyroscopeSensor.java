@@ -73,7 +73,7 @@ public class GyroscopeSensor extends SensorBaseClass implements SensorEventListe
                     + String.valueOf(values[1]) + Helper.SPACE
                     + String.valueOf(values[2]) + Helper.SPACE ;
         }else{
-            valuesstr = "- - - ";
+            valuesstr = "0 0 0 ";
         }
         return valuesstr;
     }

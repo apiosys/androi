@@ -2,20 +2,15 @@ package com.apiosystems.datacollector.SensorClasses;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.apiosystems.datacollector.util.Helper;
 
-public class LocationSensor2 implements LocationListener {
-    Context mContext;
-    Activity mActivity;
+public class LocationAndroid implements LocationListener {
+    private static final String LOCATION_PROVIDER = android.location.LocationManager.NETWORK_PROVIDER;
     public static LocationManager mLocationManager = null;
     public static Location mLocation = null;
     public static final String LOG_TAG = "LOCATION_SENSOR2";
@@ -28,19 +23,19 @@ public class LocationSensor2 implements LocationListener {
 
     public static final long TIME_INTERVAL_BETWEEN_LOCATION_UPDATES = 30;
     public static final float DISTANCE_BETWEEN_LOCATION_UPDATES = 0.01f;
+    Context mContext;
 
-    public LocationSensor2(Context context, Activity activity){
+    public LocationAndroid(Context context){
         this.mContext = context;
-        this.mActivity = activity;
-        mLocationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mLocationManager = (android.location.LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        mLocation = mLocationManager.getLastKnownLocation(LOCATION_PROVIDER);
         if(mLocation != null){
             onLocationChanged(mLocation);
         }
     }
 
     public void registerSensor(){
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_INTERVAL_BETWEEN_LOCATION_UPDATES,
+        mLocationManager.requestLocationUpdates(LOCATION_PROVIDER, TIME_INTERVAL_BETWEEN_LOCATION_UPDATES,
                 DISTANCE_BETWEEN_LOCATION_UPDATES, this);
     }
 
@@ -67,28 +62,28 @@ public class LocationSensor2 implements LocationListener {
         this.values = values;
     }
 
-    public String getValuesStr(){
+    public String getLatLongAlt(){
         String valuesstr;
-        if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+        if(mLocationManager.isProviderEnabled(LOCATION_PROVIDER)){
             valuesstr = String.valueOf(values[0]) + Helper.SPACE
                       + String.valueOf(values[1]) + Helper.SPACE
                       + String.valueOf(alt) + Helper.SPACE ;
         }else{
-            valuesstr = "- - - ";
+            valuesstr = "0 0 0 ";
         }
         return valuesstr;
     }
 
     public String getLocMeta(){
         String locmeta;
-        if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+        if(mLocationManager.isProviderEnabled(LOCATION_PROVIDER)){
             locmeta = String.valueOf(locTime) + Helper.SPACE
                     + String.valueOf(horaccu) + Helper.SPACE
                     + Helper.DASH + Helper.SPACE //Vertical Accuracy
                     + String.valueOf(speed) + Helper.SPACE
                     + String.valueOf(0.0) + Helper.SPACE;
         }else{
-            locmeta = "- - - - - ";
+            locmeta = "0 0 0 0 0 ";
         }
         return locmeta;
     }

@@ -101,7 +101,7 @@ public class OrientationSensorKitkat extends OrientationSensor implements Sensor
                     + String.valueOf(values[1]) + Helper.SPACE
                     + String.valueOf(values[2]) + Helper.SPACE;
         }else{
-            valuesstr = "- - - ";
+            valuesstr = "0 0 0 ";
         }
         return valuesstr;
     }
