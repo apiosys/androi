@@ -1,5 +1,6 @@
 package com.apiosystems.datacollector.Logger;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import com.apiosystems.datacollector.SensorClasses.ProximitySensor;
 import com.apiosystems.datacollector.SensorClasses.RawMagnetometerSensor;
 import com.apiosystems.datacollector.SensorClasses.RotationSensor;
 import com.apiosystems.datacollector.service.ApioActivityRecognitionService;
+import com.apiosystems.datacollector.service.DummyReceiver;
 import com.apiosystems.datacollector.ui.SensorActivity;
 import com.apiosystems.datacollector.util.Helper;
 
@@ -258,7 +260,8 @@ public class SensorLogger extends TimerTask {
                         + getSensorValues();
             writeDataToFile(log);
             //Log.i(LOG_TAG, " : " + Helper.getCurrentDateTimeinMillis());
-            Intent activityRecognition = new Intent(mContext, ApioActivityRecognitionService.class);
+            Intent activityRecognition = new Intent(mContext, DummyReceiver.class);
+            PendingIntent.getBroadcast(mContext, 0, activityRecognition, PendingIntent.FLAG_NO_CREATE);
         }
     }
 }
